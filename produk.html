@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Alwi Store</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    body {
+      overflow-x: hidden;
+    }
+    nav {
+      background-color: #6a1b9a;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+    }
+    .logo span {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    nav ul li a:hover {
+      color: #d1c4e9;
+    }
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+    .menu-toggle span {
+      height: 3px;
+      width: 25px;
+      background: white;
+      margin-bottom: 4px;
+      border-radius: 5px;
+      transition: 0.3s;
+    }
+    .animated-bg {
+      min-height: 100vh;
+      padding-top: 100px;
+      background: linear-gradient(270deg, #ba68c8, #8e24aa, #6a1b9a);
+      background-size: 600% 600%;
+      animation: moveBg 15s ease infinite;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    @keyframes moveBg {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .bubbles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .bubbles span {
+      position: absolute;
+      display: block;
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.15);
+      animation: rise 20s linear infinite;
+      bottom: -60px;
+      border-radius: 50%;
+      backdrop-filter: blur(2px);
+    }
+    .bubbles span:nth-child(1) { left: 10%; animation-duration: 18s; width: 60px; height: 60px; }
+    .bubbles span:nth-child(2) { left: 20%; animation-duration: 25s; width: 40px; height: 40px; }
+    .bubbles span:nth-child(3) { left: 35%; animation-duration: 22s; }
+    .bubbles span:nth-child(4) { left: 50%; animation-duration: 19s; width: 30px; height: 30px; }
+    .bubbles span:nth-child(5) { left: 65%; animation-duration: 27s; width: 50px; height: 50px; }
+    .bubbles span:nth-child(6) { left: 80%; animation-duration: 23s; width: 45px; height: 45px; }
+    .bubbles span:nth-child(7) { left: 90%; animation-duration: 20s; width: 35px; height: 35px; }
+    @keyframes rise {
+      0% { transform: translateY(0) scale(1); opacity: 0.5; }
+      100% { transform: translateY(-1000px) scale(0.5); opacity: 0; }
+    }
+    .product-wrapper {
+      position: relative;
+      z-index: 1;
+    }
+    .product-card {
+      background-color: white;
+      border-radius: 15px;
+      padding: 1.5rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      color: #333;
+      transition: transform 0.3s ease;
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+    }
+    .category-title {
+      font-size: 1.8rem;
+      font-weight: bold;
+      margin-top: 3rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid rgba(255,255,255,0.3);
+      padding-bottom: 0.5rem;
+    }
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: flex;
+      }
+      nav ul {
+        flex-direction: column;
+        background: #6a1b9a;
+        position: absolute;
+        top: 70px;
+        right: 0;
+        width: 200px;
+        display: none;
+        padding: 1rem;
+        border-radius: 0 0 0 10px;
+      }
+      nav ul.show {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">
+      <img src="https://files.catbox.moe/qqfj6v.jpg" alt="Logo" />
+      <span>𝗔𝗟𝗪𝗜 𝗦𝗧𝗢𝗥𝗘</span>
+    </div>
+    <div class="menu-toggle" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+    <ul id="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="#">Produk</a></li>
+      <li><a href="https://wa.me/6283155764643" target="_blank">Kontak</a></li>
+    </ul>
+  </nav>
+
+  <div class="animated-bg">
+    <div class="bubbles">
+      <span></span><span></span><span></span>
+      <span></span><span></span><span></span>
+      <span></span>
+    </div>
+
+    <div class="container product-wrapper py-5">
+      <h2 class="text-center fw-bold mb-5">Daftar Produk</h2>
+
+ <!-- Hosting Minecraft -->
+<div class="category-title text-white">Hosting Minecraft</div>
+<div class="row g-4">
+  <!-- Kelinci -->
+  <div class="col-md-4">
+    <div class="product-card h-100">
+      <h5>⦿ Paket Kelinci 🐇</h5>
+      <p>RAM 1GB | Core 100% | Disk 3GB</p>
+      <p class="fw-bold text-primary">Rp 5.000</p>
+      <a href="https://wa.me/6283155764643?text=Pesan%20Paket%20Kelinci" class="btn btn-outline-primary w-100">Pesan Sekarang</a>
+    </div>
+  </div>
+
+  <!-- Katak -->
+  <div class="col-md-4">
+    <div class="product-card h-100">
+      <h5> Paket Katak 🐸</h5>
+      <p>RAM 2GB | Core 150% | Disk 5GB</p>
+      <p class="fw-bold text-primary">Rp 10.000</p>
+      <a href="https://wa.me/6283155764643?text=Pesan%20Paket%20Katak" class="btn btn-outline-primary w-100">Pesan Sekarang</a>
+    </div>
+  </div>
+
+  <!-- Kucing -->
+  <div class="col-md-4">
+    <div class="product-card h-100">
+      <h5>⦿ Paket Kucing 🐱</h5>
+      <p>RAM 4GB | Core 250% | Disk 8GB</p>
+      <p class="fw-bold text-primary">Rp 20.000</p>
+      <a href="https://wa.me/6283155764643?text=Pesan%20Paket%20Kucing" class="btn btn-outline-primary w-100">Pesan Sekarang</a>
+    </div>
+  </div>
+
+  <!-- Ayam -->
+  <div class="col-md-4">
+    <div class="product-card h-100">
+      <h5>⦿ Paket Ayam 🐓</h5>
+      <p>RAM 5GB | Core 300% | Disk 14GB</p>
+      <p class="fw-bold text-primary">Rp 35.000</p>
+      <a href="https://wa.me/6283155764643?text=Pesan%20Paket%20Ayam" class="btn btn-outline-primary w-100">Pesan Sekarang</a>
+    </div>
+  </div>
+
+  <!-- Fox -->
+  <div class="col-md-4">
+    <div class="product-card h-100">
+      <h5>⦿ Paket Fox 🦊</h5>
+      <p>RAM 7GB | Core 400% | Disk 14GB</p>
+      <p class="fw-bold text-primary">Rp 45.000</p>
+      <a href="https://wa.me/6283155764643?text=Pesan%20Paket%20Fox" class="btn btn-outline-primary w-100">Pesan Sekarang</a>
+    </div>
+  </div>
+
+  <!-- Elang -->
+  <div class="col-md-4">
+    <div class="product-card h-100">
+      <h5>⦿ Paket Elang 🦅</h5>
+      <p>RAM 8GB | Core 400% | Disk 16GB</p>
+      <p class="fw-bold text-primary">Rp 50.000</p>
+      <a href="https://wa.me/6283155764643?text=Pesan%20Paket%20Elang" class="btn btn-outline-primary w-100">Pesan Sekarang</a>
+    </div>
+  </div>
+
+  <!-- Hiu -->
+  <div class="col-md-4">
+    <div class="product-card h-100">
+      <h5>⦿ Paket Hiu 🦈</h5>
+      <p>RAM 10GB | Core 400% | Disk 18GB</p>
+      <p class="fw-bold text-primary">Rp 65.000</p>
+      <a href="https://wa.me/6283155764643?text=Pesan%20Paket%20Hiu" class="btn btn-outline-primary w-100">Pesan Sekarang</a>
+    </div>
+  </div>
+
+  <!-- Serigala -->
+  <div class="col-md-4">
+    <div class="product-card h-100">
+      <h5>⦿ Paket Serigala 🐺</h5>
+      <p>RAM 10GB | Core 500% | Disk 20GB</p>
+      <p class="fw-bold text-primary">Rp 70.000</p>
+      <a href="https://wa.me/6283155764643?text=Pesan%20Paket%20Serigala" class="btn btn-outline-primary w-100">Pesan Sekarang</a>
+    </div>
+  </div>
+
+  <!-- Harimau -->
+  <div class="col-md-4">
+    <div class="product-card h-100">
+      <h5>⦿ Paket Harimau 🐯</h5>
+      <p>RAM 12GB | Core 500% | Disk 20GB</p>
+      <p class="fw-bold text-primary">Rp 85.000</p>
+      <a href="https://wa.me/6283155764643?text=Pesan%20Paket%20Harimau" class="btn btn-outline-primary w-100">Pesan Sekarang</a>
+    </div>
+  </div>
+
+  <!-- Singa -->
+  <div class="col-md-4">
+    <div class="product-card h-100">
+      <h5>⦿ Paket Singa 🦁</h5>
+      <p>RAM 14GB | Core 600% | Disk 24GB</p>
+      <p class="fw-bold text-primary">Rp 100.000</p>
+      <a href="https://wa.me/6283155764643?text=Pesan%20Paket%20Singa" class="btn btn-outline-primary w-100">Pesan Sekarang</a>
+    </div>
+  </div>
+
+  <!-- Badak -->
+  <div class="col-md-4">
+    <div class="product-card h-100">
+      <h5>⦿ Paket Badak 🦏</h5>
+      <p>RAM 15GB | Core 700% | Disk 28GB</p>
+      <p class="fw-bold text-primary">Rp 120.000</p>
+      <a href="https://wa.me/6283155764643?text=Pesan%20Paket%20Badak" class="btn btn-outline-primary w-100">Pesan Sekarang</a>
+    </div>
+  </div>
+
+  <!-- Naga -->
+  <div class="col-md-4">
+    <div class="product-card h-100">
+      <h5>⦿ Paket Naga 🐉</h5>
+      <p>RAM 16GB | Core 800% | Disk 32GB</p>
+      <p class="fw-bold text-primary">Rp 140.000</p>
+      <a href="https://wa.me/6283155764643?text=Pesan%20Paket%20Naga" class="btn btn-outline-primary w-100">Pesan Sekarang</a>
+    </div>
+  </div>
+
+  <!-- Special -->
+  <div class="col-md-4">
+    <div class="product-card h-100">
+      <h5>⦿ Paket Special</h5>
+      <p>RAM 64GB | Core 1000% | Disk 200GB</p>
+      <p class="fw-bold text-primary">Rp 500.000</p>
+      <a href="https://wa.me/6283155764643?text=Pesan%20Paket%20Special" class="btn btn-outline-primary w-100">Pesan Sekarang</a>
+    </div>
+  </div>
+</div>
+
+<!-- Private Node -->
+<div class="category-title text-white">Private Node</div>
+<div class="row g-4">
+  <div class="col-md-4">
+    <div class="product-card h-100 d-flex flex-column p-3">
+      <h5>Privat node GOLD</h5>
+      <p style="line-height:1.2em; max-height: 3.6em; overflow: hidden;">
+        RAM 16gb, CPU 800%, Diks 64gb.<br>
+        Cocok untuk kebutuhan dasar dengan performa stabil.
+      </p>
+      <p class="fw-bold text-primary" style="min-height: 2.5rem; margin-bottom: 0.3rem;">
+        Rp 150.000
+      </p>
+      <a href="#" class="btn btn-outline-primary w-100 mt-auto">Pesan Sekarang</a>
+    </div>
+  </div>
+  
+  <div class="col-md-4">
+    <div class="product-card h-100 d-flex flex-column p-3">
+      <h5>Privat node EMERALD</h5>
+      <p style="line-height:1.2em; max-height: 3.6em; overflow: hidden;">
+        RAM 32gb, CPU 800%, Diks 128gb.<br>
+        Performa baik untuk kebutuhan menengah dan stabil.
+      </p>
+      <p class="fw-bold text-primary" style="min-height: 2.5rem; margin-bottom: 0.3rem;">
+        Rp 200.000
+      </p>
+      <a href="#" class="btn btn-outline-primary w-100 mt-auto">Pesan Sekarang</a>
+    </div>
+  </div>
+  
+  <div class="col-md-4">
+    <div class="product-card h-100 d-flex flex-column p-3">
+      <h5>Privat node DIAMOND</h5>
+      <p style="line-height:1.2em; max-height: 3.6em; overflow: hidden;">
+        RAM 64gb, CPU 800%, Diks 256gb.<br>
+        Ideal untuk aplikasi berat dan multitasking.
+      </p>
+      <p class="fw-bold text-primary" style="min-height: 2.5rem; margin-bottom: 0.3rem;">
+        Rp 250.000
+      </p>
+      <a href="#" class="btn btn-outline-primary w-100 mt-auto">Pesan Sekarang</a>
+    </div>
+  </div>
+  
+  <div class="col-md-4">
+    <div class="product-card h-100 d-flex flex-column p-3">
+      <h5>Privat node NETHERITE</h5>
+      <p style="line-height:1.2em; max-height: 3.6em; overflow: hidden;">
+        RAM 128gb, CPU 800%, Diks 256gb.<br>
+        Performa tinggi untuk kebutuhan enterprise.
+      </p>
+      <p class="fw-bold text-primary" style="min-height: 2.5rem; margin-bottom: 0.3rem;">
+        Rp 300.000
+      </p>
+      <a href="#" class="btn btn-outline-primary w-100 mt-auto">Pesan Sekarang</a>
+    </div>
+  </div>
+  
+  <div class="col-md-4">
+    <div class="product-card h-100 d-flex flex-column p-3">
+      <h5>Privat node Dragon</h5>
+      <p style="line-height:1.2em; max-height: 3.6em; overflow: hidden;">
+        RAM unlimited, CPU unlimited, Diks unlimited.<br>
+        Paket premium untuk performa tak terbatas.
+      </p>
+      <p class="fw-bold text-primary" style="min-height: 2.5rem; margin-bottom: 0.3rem;">
+        Rp 800.000
+      </p>
+      <a href="#" class="btn btn-outline-primary w-100 mt-auto">Pesan Sekarang</a>
+    </div>
+  </div>
+</div>
+
+<!-- Server Siap Pakai (ECO X BL & Economy Survival) -->
+<div class="category-title text-white">Server Siap Pakai</div>
+<div class="row g-4">
+
+  <!-- ECO X BL -->
+  <div class="col-md-6">
+    <div class="product-card h-100 d-flex flex-column">
+      <h5>ECO X BL</h5>
+      <p class="mb-1"><strong>Spek Hosting</strong></p>
+      <ul class="mb-2">
+        <li>▪ RAM: 32GB</li>
+        <li>▪ CPU: 800%</li>
+        <li>▪ DISK: 128GB</li>
+        <li> HARGA: Rp 300.000</li>
+      </ul>
+      <p class="mb-1"><strong>Benefit Server Siap Pakai:</strong></p>
+      <ul>
+        <li>Anti Lag</li>
+        <li>Anti Down</li>
+        <li>Anti Delay</li>
+        <li>Bisa di-up max 128GB</li>
+        <li>Free domain .my.id / .biz.id</li>
+      </ul>
+      <p class="mb-1"><strong>Fitur-fitur Server:</strong></p>
+      <ul>
+        <li>Gacha, Shops, Leaderboards</li>
+        <li>Kits System, Clan Actives, PvP</li>
+        <li>Mining Sim, Common Scoreboard</li>
+        <li>Advance Survival PvP</li>
+        <li>Support Geyser & lainnya</li>
+      </ul>
+      <a href="https://wa.me/6283155764643?text=Pesan%20Backup%20ECO%20X%20BL" class="btn btn-outline-primary w-100 mt-auto">Pesan Sekarang</a>
+    </div>
+  </div>
+
+  <!-- Economy Survival -->
+  <div class="col-md-6">
+    <div class="product-card h-100 d-flex flex-column">
+      <h5>Economy Survival</h5>
+      <p class="mb-1"><strong>Spek Hosting</strong></p>
+      <ul class="mb-2">
+        <li>RAM: 32GB</li>
+        <li>CPU: 800%</li>
+        <li>DISK: 128GB</li>
+        <li>Harga: Rp 250.000</li>
+      </ul>
+      <p class="mb-1"><strong>Fitur-fitur Server:</strong></p>
+      <ul>
+        <li>Gacha, Shop, Pets / Soul Shop</li>
+        <li>Star Levels, Reward, Random TP</li>
+        <li>Skills, Coins Shop, dan lainnya</li>
+      </ul>
+      <p class="mb-1"><strong>Benefit Buy Server Siap Pakai:</strong></p>
+      <ul>
+        <li>Anti Lag</li>
+        <li>Anti Down</li>
+        <li>Anti Delay</li>
+        <li>Bisa di-up max 128GB</li>
+        <li>Free domain .my.id / .biz.id / .xyz</li>
+      </ul>
+      <a href="https://wa.me/6283155764643?text=Pesan%20Economy%20Survival" class="btn btn-outline-primary w-100 mt-auto">Pesan Sekarang</a>
+    </div>
+  </div>
+
+<!-- Backup Server -->
+<div class="category-title text-white">Backup Server</div>
+<div class="row g-4">
+  <div class="col-md-4">
+    <div class="product-card h-100">
+      <h5>Backup Eco v1</h5>
+      <p>Backup server Eco versi 1 dengan konfigurasi lengkap.</p>
+      <p class="fw-bold text-primary">Rp 40.000</p>
+      <a href="https://wa.me/6283155764643?text=Pesan%20Backup%20Eco%20v1" class="btn btn-outline-primary w-100">Pesan Sekarang</a>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="product-card h-100">
+      <h5>Backup Eco v2</h5>
+      <p>Backup server Eco versi 2 dengan pengaturan stabil.</p>
+      <p class="fw-bold text-primary">Rp 30.000</p>
+      <a href="https://wa.me/6283155764643?text=Pesan%20Backup%20Eco%20v2" class="btn btn-outline-primary w-100">Pesan Sekarang</a>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="product-card h-100">
+      <h5>Backup Eco X RPG</h5>
+      <p>Backup server Eco X dengan sistem RPG premium.</p>
+      <p class="fw-bold text-primary">Rp 80.000</p>
+      <a href="https://wa.me/6283155764643?text=Pesan%20Backup%20Eco%20X%20RPG" class="btn btn-outline-primary w-100">Pesan Sekarang</a>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="product-card h-100">
+      <h5>Backup MetroCraft</h5>
+      <p>Backup server MetroCraft siap digunakan ulang.</p>
+      <p class="fw-bold text-primary">Rp 50.000</p>
+      <a href="https://wa.me/6283155764643?text=Pesan%20Backup%20MetroCraft" class="btn btn-outline-primary w-100">Pesan Sekarang</a>
+    </div>
+  </div>
+</div>
+
+<!-- VPS Low Quality -->
+<div class="category-title text-white">VPS Low Quality</div>
+<div class="row g-4">
+  <div class="col-md-4">
+    <div class="product-card h-100 d-flex flex-column p-3">
+      <h5>RAM 4GB | CORE 2</h5>
+      <p style="line-height:1.2em; max-height: 2.4em; overflow: hidden;">
+        VPS dengan RAM 4GB dan 2 Core, cocok untuk tugas ringan dan penggunaan dasar.
+      </p>
+      <p class="fw-bold text-primary" style="min-height: 2.5rem; margin-bottom: 0.3rem;">
+        Rp 25.000
+      </p>
+      <a href="https://wa.me/6283155764643?text=Pesan%20VPS%204GB%20Core%202" class="btn btn-outline-primary w-100 mt-auto">Pesan Sekarang</a>
+    </div>
+  </div>
+  
+  <div class="col-md-4">
+    <div class="product-card h-100 d-flex flex-column p-3">
+      <h5>RAM 8GB | CORE 4</h5>
+      <p style="line-height:1.2em; max-height: 2.4em; overflow: hidden;">
+        VPS dengan RAM 8GB dan 4 Core, efisien untuk penggunaan sedang dan stabil.
+      </p>
+      <p class="fw-bold text-primary" style="min-height: 2.5rem; margin-bottom: 0.3rem;">
+        Rp 35.000
+      </p>
+      <a href="https://wa.me/6283155764643?text=Pesan%20VPS%208GB%20Core%204" class="btn btn-outline-primary w-100 mt-auto">Pesan Sekarang</a>
+    </div>
+  </div>
+  
+  <div class="col-md-4">
+    <div class="product-card h-100 d-flex flex-column p-3">
+      <h5>RAM 16GB | CORE 4</h5>
+      <p style="line-height:1.2em; max-height: 2.4em; overflow: hidden;">
+        VPS dengan RAM 16GB dan 4 Core, cocok untuk deployment menengah dan tugas berat.
+      </p>
+      <p class="fw-bold text-primary" style="min-height: 2.5rem; margin-bottom: 0.3rem;">
+        Rp 45.000
+      </p>
+      <a href="https://wa.me/6283155764643?text=Pesan%20VPS%2016GB%20Core%204" class="btn btn-outline-primary w-100 mt-auto">Pesan Sekarang</a>
+    </div>
+  </div>
+  
+  <div class="col-md-4">
+    <div class="product-card h-100 d-flex flex-column p-3">
+      <h5>RAM 16GB | CORE 8</h5>
+      <p style="line-height:1.2em; max-height: 2.4em; overflow: hidden;">
+        VPS dengan RAM 16GB dan 8 Core, performa tinggi untuk multitasking dan aplikasi berat.
+      </p>
+      <p class="fw-bold text-primary" style="min-height: 2.5rem; margin-bottom: 0.3rem;">
+        Rp 55.000
+      </p>
+      <a href="https://wa.me/6283155764643?text=Pesan%20VPS%2016GB%20Core%208" class="btn btn-outline-primary w-100 mt-auto">Pesan Sekarang</a>
+    </div>
+  </div>
+  
+  <div class="col-md-4">
+    <div class="product-card h-100 d-flex flex-column p-3">
+      <h5>RAM 32GB | CORE 8</h5>
+      <p style="line-height:1.2em; max-height: 2.4em; overflow: hidden;">
+        VPS dengan RAM 32GB dan 8 Core, kapasitas besar untuk beban kerja berat dan stabil.
+      </p>
+      <p class="fw-bold text-primary" style="min-height: 2.5rem; margin-bottom: 0.3rem;">
+        Rp 70.000
+      </p>
+      <a href="https://wa.me/6283155764643?text=Pesan%20VPS%2032GB%20Core%208" class="btn btn-outline-primary w-100 mt-auto">Pesan Sekarang</a>
+    </div>
+  </div>
+</div>
+
+
+      <!-- VPS High Quality -->
+<div class="category-title text-white">VPS High Quality</div>
+<div class="row g-4">
+  <div class="col-md-4">
+    <div class="product-card h-100 d-flex flex-column p-3">
+      <h5>RAM 16GB | CORE 4</h5>
+      <p style="line-height:1.2em; max-height: 2.4em; overflow: hidden;">
+        VPS dengan RAM 16GB dan 4 Core, performa tinggi untuk aplikasi berat dan stabil.
+      </p>
+      <p class="fw-bold text-primary" style="min-height: 2.5rem; margin-bottom: 0.3rem;">
+        Rp 60.000
+      </p>
+      <a href="https://wa.me/6283155764643?text=Pesan%20VPS%2016GB%20Core%204" class="btn btn-outline-primary w-100 mt-auto">Pesan Sekarang</a>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="product-card h-100 d-flex flex-column p-3">
+      <h5>RAM 16GB | CORE 8</h5>
+      <p style="line-height:1.2em; max-height: 2.4em; overflow: hidden;">
+        VPS dengan RAM 16GB dan 8 Core, cocok untuk multitasking dan beban kerja tinggi.
+      </p>
+      <p class="fw-bold text-primary" style="min-height: 2.5rem; margin-bottom: 0.3rem;">
+        Rp 80.000
+      </p>
+      <a href="https://wa.me/6283155764643?text=Pesan%20VPS%2016GB%20Core%208" class="btn btn-outline-primary w-100 mt-auto">Pesan Sekarang</a>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="product-card h-100 d-flex flex-column p-3">
+      <h5>RAM 32GB | CORE 8</h5>
+      <p style="line-height:1.2em; max-height: 2.4em; overflow: hidden;">
+        VPS dengan RAM 32GB dan 8 Core, kapasitas besar dan performa optimal.
+      </p>
+      <p class="fw-bold text-primary" style="min-height: 2.5rem; margin-bottom: 0.3rem;">
+        Rp 100.000
+      </p>
+      <a href="https://wa.me/6283155764643?text=Pesan%20VPS%2032GB%20Core%208" class="btn btn-outline-primary w-100 mt-auto">Pesan Sekarang</a>
+    </div>
+  </div>
+</div>
+
+     <!-- DigitalOcean -->
+<div class="category-title text-white">DigitalOcean</div>
+<div class="row g-4">
+  <div class="col-md-4">
+    <div class="product-card h-100">
+      <h5>10 Droplets Bill VCC</h5>
+      <p>Paket 10 Droplets dengan metode pembayaran VCC.</p>
+      <p class="fw-bold text-primary">Rp 140.000</p>
+      <a href="https://wa.me/6283155764643?text=Pesan%2010%20Droplets%20VCC" class="btn btn-outline-primary w-100">Pesan Sekarang</a>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="product-card h-100">
+      <h5>10 Droplets Bill PayPal</h5>
+      <p>Paket 10 Droplets dengan metode pembayaran PayPal.</p>
+      <p class="fw-bold text-primary">Rp 160.000</p>
+      <a href="https://wa.me/6283155764643?text=Pesan%2010%20Droplets%20PayPal" class="btn btn-outline-primary w-100">Pesan Sekarang</a>
+    </div>
+  </div>
+</div>
+
+<!-- JASA PROMOSI -->
+<div class="category-title text-white">JASA PROMOSI</div>
+<div class="row g-4">
+  <div class="col-md-4">
+    <div class="product-card h-100">
+      <h5>5 GROUP</h5>
+      <p>Promosi ke 5 grup dengan total 1.000 member aktif.</p>
+      <p class="fw-bold text-primary">Rp 1.000</p>
+      <a href="https://wa.me/6283155764643?text=Pesan%20Promosi%201K%205%20GROUP" class="btn btn-outline-primary w-100">Pesan Sekarang</a>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="product-card h-100">
+      <h5>50 GROUP + 1 CH</h5>
+      <p>Promosi ke 50 grup dan 1 channel dengan total 10.000 member.</p>
+      <p class="fw-bold text-primary">Rp 10.000</p>
+      <a href="https://wa.me/6283155764643?text=Pesan%20Promosi%2010K%2050%20GROUP%20dan%201%20Channel" class="btn btn-outline-primary w-100">Pesan Sekarang</a>
+    </div>
+  </div>
+</div>
+
+</div>
+
+    </div>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      const navLinks = document.getElementById('nav-links');
+      navLinks.classList.toggle('show');
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
