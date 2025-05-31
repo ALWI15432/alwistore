@@ -1,0 +1,28 @@
+# Aktifkan URL Rewriting
+RewriteEngine On
+
+# Redirect www ke non-www (opsional)
+RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+# Redirect HTTP ke HTTPS (opsional)
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Hilangkan .php dari URL (opsional)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([^\.]+)$ $1.php [NC,L]
+
+# Blokir akses langsung ke file .htaccess
+<Files .htaccess>
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+# Batasi upload file besar (opsional)
+php_value upload_max_filesize 10M
+php_value post_max_size 12M
+
+# Set default index file
+DirectoryIndex index.php index.html
