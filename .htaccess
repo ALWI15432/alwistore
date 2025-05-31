@@ -1,29 +1,20 @@
 RewriteEngine On
 
-# Hilangkan .html dari URL
+# Hilangkan .html dari URL (misalnya /produk jadi produk.html)
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}\.html -f
 RewriteRule ^(.*)$ $1.html [L]
 
-# Redirect dari URL yang mengandung .html ke tanpa .html (SEO Friendly)
-RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s([^.]+)\.html\sHTTP/
-RewriteRule ^([^.]+)\.html$ /$1 [R=301,L]
+# Redirect /produk.html ke /produk (SEO Friendly)
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/produk\.html\sHTTP/
+RewriteRule ^produk\.html$ /produk [R=301,L]
 
-# Optional: Hilangkan .php juga
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME}\.php -f
-RewriteRule ^([^\.]+)$ $1.php [L]
+# (Opsional) Redirect index.html ke root /
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/index\.html\sHTTP/
+RewriteRule ^index\.html$ / [R=301,L]
 
-# Redirect www ke non-www
-RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
-RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
-
-# Redirect HTTP ke HTTPS
-RewriteCond %{HTTPS} off
-RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-
-# Blokir akses ke file .htaccess
+# Blokir akses langsung ke .htaccess
 <Files .htaccess>
-    Order Allow,Deny
-    Deny from all
+  Order Allow,Deny
+  Deny from all
 </Files>
