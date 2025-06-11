@@ -390,11 +390,20 @@
         return;
       }
 
-      const pesan = `Halo Admin, saya ingin order VPS:\n\nNama: ${nama}\nWhatsApp: ${whatsapp}\nPaket: ${spec.value}`;
+      var message = `𝗛𝗮𝗹𝗼 𝗞𝗮𝗸 𝗔𝗟𝗪𝗜 😇
+𝗦𝗮𝘆𝗮 𝗠𝗮𝘂 𝗢𝗿𝗱𝗲𝗿 𝗡𝗶𝗵 𝗞𝗮𝗸
 
-      const noAdmin = "6283155764643"; // Ganti dengan nomor WhatsApp admin
-      const url = `https://wa.me/${noAdmin}?text=${encodeURIComponent(pesan)}`;
-      window.open(url, "_blank");
+╭────────────────────╮
+┃ 𝗣𝗿𝗼𝗱𝘂𝗸: ${produk}
+│ 𝗣𝗮𝗸𝗲𝘁: ${paket}
+┃ 𝗦𝗽𝗲𝗸 : ${spek}
+│ 𝗛𝗮𝗿𝗴𝗮: ${harga}
+╰────────────────────╯
+
+> ©𝗔𝗟𝗪𝗜 𝗦𝗧𝗢𝗥𝗘 𝗜D`;
+
+window.location.href = `https://wa.me/6283155764643?text=${encodeURIComponent(message)}`;
+
     }
   </script>
 </body>
