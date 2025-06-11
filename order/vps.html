@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order VPS Hosting</title>
-    <style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Order VPS Hosting</title>
+     <style>
         * {
             margin: 0;
             padding: 0;
@@ -246,248 +246,156 @@
     </style>
 </head>
 <body>
-    <div class="container">
+  <div class="container">
     <div class="header floating-animation">
-        <h1>🚀 VPS Hosting Order</h1>
-        <p>Pilih paket VPS terbaik untuk kebutuhan Anda</p>
+      <h1>🚀 VPS Hosting Order</h1>
+      <p>Pilih paket VPS terbaik untuk kebutuhan Anda</p>
     </div>
 
     <div class="form-container">
-        <form id="orderForm">
-            <div class="form-group">
-                <label for="nama">Nama Lengkap</label>
-                <input type="text" id="nama" name="nama" required placeholder="Masukkan nama lengkap Anda">
-                <div class="error" id="namaError"></div>
-            </div>
+      <button type="button" class="submit-btn" onclick="kirimWhatsapp()">Kirim Order via WhatsApp</button>
+      <form id="orderForm">
+        <div class="form-group">
+          <label for="nama">Nama Lengkap</label>
+          <input type="text" id="nama" name="nama" required placeholder="Masukkan nama lengkap Anda" />
+          <div class="error" id="namaError"></div>
+        </div>
 
-            <div class="form-group">
-                <label for="whatsapp">Nomor WhatsApp</label>
-                <input type="tel" id="whatsapp" name="whatsapp" required placeholder="Contoh: 08123456789">
-                <div class="error" id="whatsappError"></div>
-            </div>
+        <div class="form-group">
+          <label for="whatsapp">Nomor WhatsApp</label>
+          <input type="tel" id="whatsapp" name="whatsapp" required placeholder="Contoh: 08123456789" />
+          <div class="error" id="whatsappError"></div>
+        </div>
 
-            <div class="category-section">
-                <label>Pilih Kategori VPS</label>
-                <div class="category-buttons">
-                    <div class="category-btn" data-category="high">
-                        <h3>⚡ HIGH QUALITY</h3>
-                        <p>Performa tinggi untuk kebutuhan umum</p>
-                    </div>
-                    <div class="category-btn" data-category="ultra">
-                        <h3>🔥 ULTRA QUALITY</h3>
-                        <p>Performa maksimal dengan durasi lebih lama</p>
-                    </div>
-                </div>
+        <div class="category-section">
+          <label>Pilih Kategori VPS</label>
+          <div class="category-buttons">
+            <div class="category-btn" data-category="high">
+              <h3>⚡ HIGH QUALITY</h3>
+              <p>Performa tinggi untuk kebutuhan umum</p>
             </div>
-
-            <!-- High Quality Specs -->
-            <div id="highSpecs" class="specs-container hidden">
-                <h3 style="margin-bottom: 15px; color: #333;">📊 Spesifikasi High Quality</h3>
-                <div class="spec-option" data-spec="high-8-4">
-                    <input type="radio" name="specification" value="VPS RAM 8 CORE 4" class="spec-radio">
-                    <div class="spec-details">
-                        <div class="spec-name">VPS RAM 8 CORE 4</div>
-                        <div class="spec-info">Rp 60.000 / $3.75 / Rm17.14<br>Aktif 30 hari • Garansi 10 hari (1x replace)</div>
-                    </div>
-                </div>
-                <div class="spec-option" data-spec="high-16-4">
-                    <input type="radio" name="specification" value="VPS RAM 16 CORE 4" class="spec-radio">
-                    <div class="spec-details">
-                        <div class="spec-name">VPS RAM 16 CORE 4</div>
-                        <div class="spec-info">Rp 70.000 / $4.38 / Rm20<br>Aktif 30 hari • Garansi 15 hari (1x replace)</div>
-                    </div>
-                </div>
-                <div class="spec-option" data-spec="high-16-8">
-                    <input type="radio" name="specification" value="VPS RAM 16 CORE 8" class="spec-radio">
-                    <div class="spec-details">
-                        <div class="spec-name">VPS RAM 16 CORE 8</div>
-                        <div class="spec-info">Rp 100.000 / $6.25 / Rm28.57<br>Aktif 30 hari • Garansi 10 hari (1x replace)</div>
-                    </div>
-                </div>
-                <div class="spec-option" data-spec="high-32-8">
-                    <input type="radio" name="specification" value="VPS RAM 32 CORE 8" class="spec-radio">
-                    <div class="spec-details">
-                        <div class="spec-name">VPS RAM 32 CORE 8</div>
-                        <div class="spec-info">Rp 140.000 / $8.75 / Rm40<br>Aktif 30 hari • Garansi 5 hari (1x replace)</div>
-                    </div>
-                </div>
+            <div class="category-btn" data-category="ultra">
+              <h3>🔥 ULTRA QUALITY</h3>
+              <p>Performa maksimal dengan durasi lebih lama</p>
             </div>
+          </div>
+        </div>
 
-            <!-- Ultra Quality Specs -->
-            <div id="ultraSpecs" class="specs-container hidden">
-                <h3 style="margin-bottom: 15px; color: #333;">🚀 Spesifikasi Ultra Quality</h3>
-                <div class="spec-option" data-spec="ultra-16-4">
-                    <input type="radio" name="specification" value="VPS RAM 16 CORE 4 ULTRA" class="spec-radio">
-                    <div class="spec-details">
-                        <div class="spec-name">VPS RAM 16 CORE 4</div>
-                        <div class="spec-info">Rp 140.000 / $8.75 / Rm40<br>Aktif 60 hari • Garansi 10 hari (1x replace)</div>
-                    </div>
-                </div>
-                <div class="spec-option" data-spec="ultra-16-8">
-                    <input type="radio" name="specification" value="VPS RAM 16 CORE 8 ULTRA" class="spec-radio">
-                    <div class="spec-details">
-                        <div class="spec-name">VPS RAM 16 CORE 8</div>
-                        <div class="spec-info">Rp 200.000 / $12.50 / Rm57.14<br>Aktif 50 hari • Garansi 10 hari (1x replace)</div>
-                    </div>
-                </div>
-                <div class="spec-option" data-spec="ultra-32-8">
-                    <input type="radio" name="specification" value="VPS RAM 32 CORE 8 ULTRA" class="spec-radio">
-                    <div class="spec-details">
-                        <div class="spec-name">VPS RAM 32 CORE 8</div>
-                        <div class="spec-info">Rp 280.000 / $17.50 / Rm80<br>Aktif 35 hari • Garansi 15 hari (1x replace)</div>
-                    </div>
-                </div>
+        <!-- High Quality Specs -->
+        <div id="highSpecs" class="specs-container hidden">
+          <h3 style="margin-bottom: 15px; color: #333;">📊 Spesifikasi High Quality</h3>
+          <div class="spec-option">
+            <input type="radio" name="specification" value="VPS RAM 8 CORE 4" class="spec-radio" />
+            <div class="spec-details">
+              <div class="spec-name">VPS RAM 8 CORE 4</div>
+              <div class="spec-info">Rp 60.000 / $3.75 / Rm17.14<br>Aktif 30 hari • Garansi 10 hari (1x replace)</div>
             </div>
+          </div>
+          <div class="spec-option">
+            <input type="radio" name="specification" value="VPS RAM 16 CORE 4" class="spec-radio" />
+            <div class="spec-details">
+              <div class="spec-name">VPS RAM 16 CORE 4</div>
+              <div class="spec-info">Rp 70.000 / $4.38 / Rm20<br>Aktif 30 hari • Garansi 15 hari (1x replace)</div>
+            </div>
+          </div>
+          <div class="spec-option">
+            <input type="radio" name="specification" value="VPS RAM 16 CORE 8" class="spec-radio" />
+            <div class="spec-details">
+              <div class="spec-name">VPS RAM 16 CORE 8</div>
+              <div class="spec-info">Rp 100.000 / $6.25 / Rm28.57<br>Aktif 30 hari • Garansi 10 hari (1x replace)</div>
+            </div>
+          </div>
+          <div class="spec-option">
+            <input type="radio" name="specification" value="VPS RAM 32 CORE 8" class="spec-radio" />
+            <div class="spec-details">
+              <div class="spec-name">VPS RAM 32 CORE 8</div>
+              <div class="spec-info">Rp 140.000 / $8.75 / Rm40<br>Aktif 30 hari • Garansi 5 hari (1x replace)</div>
+            </div>
+          </div>
+        </div>
 
-            <button type="submit" class="submit-btn">
-                <span class="whatsapp-icon">📱</span>
-                Kirim Order via WhatsApp
-            </button>
-        </form>
+        <!-- Ultra Quality Specs -->
+        <div id="ultraSpecs" class="specs-container hidden">
+          <h3 style="margin-bottom: 15px; color: #333;">💎 Spesifikasi Ultra Quality</h3>
+          <div class="spec-option">
+            <input type="radio" name="specification" value="ULTRA VPS RAM 16 CORE 8" class="spec-radio" />
+            <div class="spec-details">
+              <div class="spec-name">ULTRA VPS RAM 16 CORE 8</div>
+              <div class="spec-info">Rp 130.000 / $8.13 / Rm37.14<br>Aktif 60 hari • Garansi 20 hari (2x replace)</div>
+            </div>
+          </div>
+          <div class="spec-option">
+            <input type="radio" name="specification" value="ULTRA VPS RAM 32 CORE 8" class="spec-radio" />
+            <div class="spec-details">
+              <div class="spec-name">ULTRA VPS RAM 32 CORE 8</div>
+              <div class="spec-info">Rp 170.000 / $10.63 / Rm48.57<br>Aktif 60 hari • Garansi 30 hari (2x replace)</div>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
-</div>
-    
-    </div>
+  </div>
 
-    <script>
-        let selectedCategory = '';
-        let selectedSpec = '';
+  <script>
+    const categoryButtons = document.querySelectorAll(".category-btn");
+    const highSpecs = document.getElementById("highSpecs");
+    const ultraSpecs = document.getElementById("ultraSpecs");
+    const specOptions = document.querySelectorAll(".spec-option");
 
-        // Handle category selection
-        document.querySelectorAll('.category-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                // Remove active class from all buttons
-                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
-                
-                // Add active class to clicked button
-                this.classList.add('active');
-                
-                selectedCategory = this.dataset.category;
-                
-                // Hide all specs containers
-                document.getElementById('highSpecs').classList.add('hidden');
-                document.getElementById('ultraSpecs').classList.add('hidden');
-                
-                // Show relevant specs container
-                if (selectedCategory === 'high') {
-                    document.getElementById('highSpecs').classList.remove('hidden');
-                } else if (selectedCategory === 'ultra') {
-                    document.getElementById('ultraSpecs').classList.remove('hidden');
-                }
-                
-                // Reset specification selection
-                document.querySelectorAll('input[name="specification"]').forEach(radio => {
-                    radio.checked = false;
-                });
-                document.querySelectorAll('.spec-option').forEach(option => {
-                    option.classList.remove('selected');
-                });
-                selectedSpec = '';
-            });
-        });
+    categoryButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        categoryButtons.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
 
-        // Handle specification selection
-        document.querySelectorAll('.spec-option').forEach(option => {
-            option.addEventListener('click', function() {
-                const radio = this.querySelector('input[type="radio"]');
-                
-                // Remove selected class from all spec options
-                document.querySelectorAll('.spec-option').forEach(opt => opt.classList.remove('selected'));
-                
-                // Add selected class to clicked option
-                this.classList.add('selected');
-                
-                // Check the radio button
-                radio.checked = true;
-                selectedSpec = radio.value;
-            });
-        });
+        const category = btn.getAttribute("data-category");
 
-        // Form validation and WhatsApp integration
-        document.getElementById('orderForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Clear previous errors
-            document.querySelectorAll('.error').forEach(error => error.textContent = '');
-            
-            // Get form values
-            const nama = document.getElementById('nama').value.trim();
-            const whatsapp = document.getElementById('whatsapp').value.trim();
-            
-            let isValid = true;
-            
-            // Validate name
-            if (!nama) {
-                document.getElementById('namaError').textContent = 'Nama lengkap harus diisi';
-                isValid = false;
-            } else if (nama.length < 2) {
-                document.getElementById('namaError').textContent = 'Nama terlalu pendek';
-                isValid = false;
-            }
-            
-            // Validate WhatsApp number
-            if (!whatsapp) {
-                document.getElementById('whatsappError').textContent = 'Nomor WhatsApp harus diisi';
-                isValid = false;
-            } else if (!/^(\+62|62|0)[\d]{9,12}$/.test(whatsapp.replace(/[\s-]/g, ''))) {
-                document.getElementById('whatsappError').textContent = 'Format nomor WhatsApp tidak valid';
-                isValid = false;
-            }
-            
-            // Validate category and specification
-            if (!selectedCategory) {
-                alert('Silakan pilih kategori VPS terlebih dahulu');
-                isValid = false;
-            } else if (!selectedSpec) {
-                alert('Silakan pilih spesifikasi VPS terlebih dahulu');
-                isValid = false;
-            }
-            
-            if (isValid) {
-                // Get selected specification details
-                const selectedSpecOption = document.querySelector(`input[value="${selectedSpec}"]`).closest('.spec-option');
-                const specName = selectedSpecOption.querySelector('.spec-name').textContent;
-                const specInfo = selectedSpecOption.querySelector('.spec-info').textContent;
-                const specPrice = selectedSpecOption.querySelector('.spec-price').textContent;
-                
-                // Format WhatsApp number
-                let formattedWA = whatsapp.replace(/[\s-]/g, '');
-                if (formattedWA.startsWith('0')) {
-                    formattedWA = '62' + formattedWA.substring(1);
-                } else if (!formattedWA.startsWith('62')) {
-                    formattedWA = '62' + formattedWA;
-                }
-                
-                // Create WhatsApp message
-                const message = `🚀 *ORDER VPS HOSTING* 🚀
+        if (category === "high") {
+          highSpecs.classList.remove("hidden");
+          ultraSpecs.classList.add("hidden");
+        } else {
+          highSpecs.classList.add("hidden");
+          ultraSpecs.classList.remove("hidden");
+        }
+      });
+    });
 
-👤 *Nama:* ${nama}
-📱 *WhatsApp:* ${whatsapp}
+    specOptions.forEach((option) => {
+      option.addEventListener("click", () => {
+        specOptions.forEach((o) => o.classList.remove("selected"));
+        option.classList.add("selected");
+        option.querySelector("input[type=radio]").checked = true;
+      });
+    });
 
-📦 *Paket Dipilih:*
-${specName}
-${specInfo}
-💰 *Harga:* ${specPrice}
+    function kirimWhatsapp() {
+      const nama = document.getElementById("nama").value.trim();
+      const whatsapp = document.getElementById("whatsapp").value.trim();
+      const spec = document.querySelector('input[name="specification"]:checked');
 
-Mohon konfirmasi ketersediaan dan proses pembayaran. Terima kasih! 🙏`;
-                
-                // Create WhatsApp URL
-                const whatsappURL = `https://wa.me/6282288127378?text=${encodeURIComponent(message)}`;
-                
-                // Open WhatsApp
-                window.open(whatsappURL, '_blank');
-            }
-        });
+      document.getElementById("namaError").textContent = "";
+      document.getElementById("whatsappError").textContent = "";
 
-        // Add floating animation to header on scroll
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('.header');
-            if (window.scrollY > 50) {
-                header.style.transform = 'translateY(-5px)';
-            } else {
-                header.style.transform = 'translateY(0)';
-            }
-        });
-    </script>
+      if (!nama) {
+        document.getElementById("namaError").textContent = "Nama tidak boleh kosong";
+        return;
+      }
+
+      if (!whatsapp) {
+        document.getElementById("whatsappError").textContent = "Nomor WhatsApp tidak boleh kosong";
+        return;
+      }
+
+      if (!spec) {
+        alert("Silakan pilih salah satu spesifikasi VPS.");
+        return;
+      }
+
+      const pesan = `Halo Admin, saya ingin order VPS:\n\nNama: ${nama}\nWhatsApp: ${whatsapp}\nPaket: ${spec.value}`;
+
+      const noAdmin = "6281234567890"; // Ganti dengan nomor WhatsApp admin
+      const url = `https://wa.me/${noAdmin}?text=${encodeURIComponent(pesan)}`;
+      window.open(url, "_blank");
+    }
+  </script>
 </body>
 </html>
