@@ -336,61 +336,67 @@
     </div>
   </div>
 
-  <script>
-    const categoryButtons = document.querySelectorAll(".category-btn");
-    const highSpecs = document.getElementById("highSpecs");
-    const ultraSpecs = document.getElementById("ultraSpecs");
-    const specOptions = document.querySelectorAll(".spec-option");
+<script>
+  const categoryButtons = document.querySelectorAll(".category-btn");
+  const highSpecs = document.getElementById("highSpecs");
+  const ultraSpecs = document.getElementById("ultraSpecs");
+  const specOptions = document.querySelectorAll(".spec-option");
 
-    categoryButtons.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        categoryButtons.forEach((b) => b.classList.remove("active"));
-        btn.classList.add("active");
+  categoryButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      categoryButtons.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
 
-        const category = btn.getAttribute("data-category");
+      const category = btn.getAttribute("data-category");
 
-        if (category === "high") {
-          highSpecs.classList.remove("hidden");
-          ultraSpecs.classList.add("hidden");
-        } else {
-          highSpecs.classList.add("hidden");
-          ultraSpecs.classList.remove("hidden");
-        }
-      });
+      if (category === "high") {
+        highSpecs.classList.remove("hidden");
+        ultraSpecs.classList.add("hidden");
+      } else {
+        highSpecs.classList.add("hidden");
+        ultraSpecs.classList.remove("hidden");
+      }
     });
+  });
 
-    specOptions.forEach((option) => {
-      option.addEventListener("click", () => {
-        specOptions.forEach((o) => o.classList.remove("selected"));
-        option.classList.add("selected");
-        option.querySelector("input[type=radio]").checked = true;
-      });
+  specOptions.forEach((option) => {
+    option.addEventListener("click", () => {
+      specOptions.forEach((o) => o.classList.remove("selected"));
+      option.classList.add("selected");
+      option.querySelector("input[type=radio]").checked = true;
     });
+  });
 
-    function kirimWhatsapp() {
-      const nama = document.getElementById("nama").value.trim();
-      const whatsapp = document.getElementById("whatsapp").value.trim();
-      const spec = document.querySelector('input[name="specification"]:checked');
+  function kirimWhatsapp() {
+    const nama = document.getElementById("nama").value.trim();
+    const whatsapp = document.getElementById("whatsapp").value.trim();
+    const spec = document.querySelector('input[name="specification"]:checked');
 
-      document.getElementById("namaError").textContent = "";
-      document.getElementById("whatsappError").textContent = "";
+    document.getElementById("namaError").textContent = "";
+    document.getElementById("whatsappError").textContent = "";
 
-      if (!nama) {
-        document.getElementById("namaError").textContent = "Nama tidak boleh kosong";
-        return;
-      }
+    if (!nama) {
+      document.getElementById("namaError").textContent = "Nama tidak boleh kosong";
+      return;
+    }
 
-      if (!whatsapp) {
-        document.getElementById("whatsappError").textContent = "Nomor WhatsApp tidak boleh kosong";
-        return;
-      }
+    if (!whatsapp) {
+      document.getElementById("whatsappError").textContent = "Nomor WhatsApp tidak boleh kosong";
+      return;
+    }
 
-      if (!spec) {
-        alert("Silakan pilih salah satu spesifikasi VPS.");
-        return;
-      }
+    if (!spec) {
+      alert("Silakan pilih salah satu spesifikasi VPS.");
+      return;
+    }
 
-      var message = `𝗛𝗮𝗹𝗼 𝗞𝗮𝗸 𝗔𝗟𝗪𝗜 😇
+    // Ambil detail dari elemen terpilih
+    const produk = "VPS"; // Bisa diganti sesuai kebutuhan
+    const paket = spec.dataset.paket || "Tidak diketahui";
+    const spek = spec.dataset.spek || "Tidak diketahui";
+    const harga = spec.dataset.harga || "Tidak diketahui";
+
+    const message = `𝗛𝗮𝗹𝗼 𝗞𝗮𝗸 𝗔𝗟𝗪𝗜 😇
 𝗦𝗮𝘆𝗮 𝗠𝗮𝘂 𝗢𝗿𝗱𝗲𝗿 𝗡𝗶𝗵 𝗞𝗮𝗸
 
 ╭────────────────────╮
@@ -402,9 +408,9 @@
 
 > ©𝗔𝗟𝗪𝗜 𝗦𝗧𝗢𝗥𝗘 𝗜D`;
 
-window.location.href = `https://wa.me/6283155764643?text=${encodeURIComponent(message)}`;
+    window.location.href = `https://wa.me/6283155764643?text=${encodeURIComponent(message)}`;
+  }
+</script>
 
-    }
-  </script>
 </body>
 </html>
