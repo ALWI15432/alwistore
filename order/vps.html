@@ -247,111 +247,106 @@
 </head>
 <body>
     <div class="container">
-        <div class="header floating-animation">
-            <h1>🚀 VPS Hosting Order</h1>
-            <p>Pilih paket VPS terbaik untuk kebutuhan Anda</p>
-        </div>
-        
-        <div class="form-container">
-            <form id="orderForm">
-                <div class="form-group">
-                    <label for="nama">Nama Lengkap</label>
-                    <input type="text" id="nama" name="nama" required placeholder="Masukkan nama lengkap Anda">
-                    <div class="error" id="namaError"></div>
-                </div>
+    <div class="header floating-animation">
+        <h1>🚀 VPS Hosting Order</h1>
+        <p>Pilih paket VPS terbaik untuk kebutuhan Anda</p>
+    </div>
 
-                <div class="form-group">
-                    <label for="whatsapp">Nomor WhatsApp</label>
-                    <input type="tel" id="whatsapp" name="whatsapp" required placeholder="Contoh: 08123456789">
-                    <div class="error" id="whatsappError"></div>
-                </div>
+    <div class="form-container">
+        <form id="orderForm">
+            <div class="form-group">
+                <label for="nama">Nama Lengkap</label>
+                <input type="text" id="nama" name="nama" required placeholder="Masukkan nama lengkap Anda">
+                <div class="error" id="namaError"></div>
+            </div>
 
-                <div class="category-section">
-                    <label>Pilih Kategori VPS</label>
-                    <div class="category-buttons">
-                        <div class="category-btn" data-category="high">
-                            <h3>⚡ HIGH QUALITY</h3>
-                            <p>Performa tinggi untuk aplikasi menengah</p>
-                        </div>
-                        <div class="category-btn" data-category="ultra">
-                            <h3>🔥 ULTRA QUALITY</h3>
-                            <p>Performa maksimal untuk aplikasi enterprise</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="form-group">
+                <label for="whatsapp">Nomor WhatsApp</label>
+                <input type="tel" id="whatsapp" name="whatsapp" required placeholder="Contoh: 08123456789">
+                <div class="error" id="whatsappError"></div>
+            </div>
 
-                <!-- High Quality Specs -->
-                <div id="highSpecs" class="specs-container hidden">
-                    <h3 style="margin-bottom: 15px; color: #333;">📊 Spesifikasi High Quality</h3>
-                    <div class="spec-option" data-spec="high-basic">
-                        <input type="radio" name="specification" value="high-basic" class="spec-radio">
-                        <div class="spec-details">
-                            <div class="spec-name">VPS High Basic</div>
-                            <div class="spec-info">2 vCPU | 4GB RAM | 50GB SSD | 100Mbps</div>
-                        </div>
-                        <div class="spec-price">Rp 150K/bulan</div>
+            <div class="category-section">
+                <label>Pilih Kategori VPS</label>
+                <div class="category-buttons">
+                    <div class="category-btn" data-category="high">
+                        <h3>⚡ HIGH QUALITY</h3>
+                        <p>Performa tinggi untuk kebutuhan umum</p>
                     </div>
-                    <div class="spec-option" data-spec="high-standard">
-                        <input type="radio" name="specification" value="high-standard" class="spec-radio">
-                        <div class="spec-details">
-                            <div class="spec-name">VPS High Standard</div>
-                            <div class="spec-info">4 vCPU | 8GB RAM | 100GB SSD | 200Mbps</div>
-                        </div>
-                        <div class="spec-price">Rp 275K/bulan</div>
-                    </div>
-                    <div class="spec-option" data-spec="high-premium">
-                        <input type="radio" name="specification" value="high-premium" class="spec-radio">
-                        <div class="spec-details">
-                            <div class="spec-name">VPS High Premium</div>
-                            <div class="spec-info">6 vCPU | 16GB RAM | 200GB SSD | 500Mbps</div>
-                        </div>
-                        <div class="spec-price">Rp 450K/bulan</div>
+                    <div class="category-btn" data-category="ultra">
+                        <h3>🔥 ULTRA QUALITY</h3>
+                        <p>Performa maksimal dengan durasi lebih lama</p>
                     </div>
                 </div>
+            </div>
 
-                <!-- Ultra Quality Specs -->
-                <div id="ultraSpecs" class="specs-container hidden">
-                    <h3 style="margin-bottom: 15px; color: #333;">🚀 Spesifikasi Ultra Quality</h3>
-                    <div class="spec-option" data-spec="ultra-basic">
-                        <input type="radio" name="specification" value="ultra-basic" class="spec-radio">
-                        <div class="spec-details">
-                            <div class="spec-name">VPS Ultra Basic</div>
-                            <div class="spec-info">4 vCPU | 8GB RAM | 100GB NVMe | 500Mbps</div>
-                        </div>
-                        <div class="spec-price">Rp 350K/bulan</div>
-                    </div>
-                    <div class="spec-option" data-spec="ultra-standard">
-                        <input type="radio" name="specification" value="ultra-standard" class="spec-radio">
-                        <div class="spec-details">
-                            <div class="spec-name">VPS Ultra Standard</div>
-                            <div class="spec-info">8 vCPU | 16GB RAM | 250GB NVMe | 1Gbps</div>
-                        </div>
-                        <div class="spec-price">Rp 650K/bulan</div>
-                    </div>
-                    <div class="spec-option" data-spec="ultra-premium">
-                        <input type="radio" name="specification" value="ultra-premium" class="spec-radio">
-                        <div class="spec-details">
-                            <div class="spec-name">VPS Ultra Premium</div>
-                            <div class="spec-info">12 vCPU | 32GB RAM | 500GB NVMe | 1Gbps</div>
-                        </div>
-                        <div class="spec-price">Rp 950K/bulan</div>
-                    </div>
-                    <div class="spec-option" data-spec="ultra-enterprise">
-                        <input type="radio" name="specification" value="ultra-enterprise" class="spec-radio">
-                        <div class="spec-details">
-                            <div class="spec-name">VPS Ultra Enterprise</div>
-                            <div class="spec-info">16 vCPU | 64GB RAM | 1TB NVMe | 1Gbps</div>
-                        </div>
-                        <div class="spec-price">Rp 1.5JT/bulan</div>
+            <!-- High Quality Specs -->
+            <div id="highSpecs" class="specs-container hidden">
+                <h3 style="margin-bottom: 15px; color: #333;">📊 Spesifikasi High Quality</h3>
+                <div class="spec-option" data-spec="high-8-4">
+                    <input type="radio" name="specification" value="VPS RAM 8 CORE 4" class="spec-radio">
+                    <div class="spec-details">
+                        <div class="spec-name">VPS RAM 8 CORE 4</div>
+                        <div class="spec-info">Rp 60.000 / $3.75 / Rm17.14<br>Aktif 30 hari • Garansi 10 hari (1x replace)</div>
                     </div>
                 </div>
+                <div class="spec-option" data-spec="high-16-4">
+                    <input type="radio" name="specification" value="VPS RAM 16 CORE 4" class="spec-radio">
+                    <div class="spec-details">
+                        <div class="spec-name">VPS RAM 16 CORE 4</div>
+                        <div class="spec-info">Rp 70.000 / $4.38 / Rm20<br>Aktif 30 hari • Garansi 15 hari (1x replace)</div>
+                    </div>
+                </div>
+                <div class="spec-option" data-spec="high-16-8">
+                    <input type="radio" name="specification" value="VPS RAM 16 CORE 8" class="spec-radio">
+                    <div class="spec-details">
+                        <div class="spec-name">VPS RAM 16 CORE 8</div>
+                        <div class="spec-info">Rp 100.000 / $6.25 / Rm28.57<br>Aktif 30 hari • Garansi 10 hari (1x replace)</div>
+                    </div>
+                </div>
+                <div class="spec-option" data-spec="high-32-8">
+                    <input type="radio" name="specification" value="VPS RAM 32 CORE 8" class="spec-radio">
+                    <div class="spec-details">
+                        <div class="spec-name">VPS RAM 32 CORE 8</div>
+                        <div class="spec-info">Rp 140.000 / $8.75 / Rm40<br>Aktif 30 hari • Garansi 5 hari (1x replace)</div>
+                    </div>
+                </div>
+            </div>
 
-                <button type="submit" class="submit-btn">
-                    <span class="whatsapp-icon">📱</span>
-                    Kirim Order via WhatsApp
-                </button>
-            </form>
-        </div>
+            <!-- Ultra Quality Specs -->
+            <div id="ultraSpecs" class="specs-container hidden">
+                <h3 style="margin-bottom: 15px; color: #333;">🚀 Spesifikasi Ultra Quality</h3>
+                <div class="spec-option" data-spec="ultra-16-4">
+                    <input type="radio" name="specification" value="VPS RAM 16 CORE 4 ULTRA" class="spec-radio">
+                    <div class="spec-details">
+                        <div class="spec-name">VPS RAM 16 CORE 4</div>
+                        <div class="spec-info">Rp 140.000 / $8.75 / Rm40<br>Aktif 60 hari • Garansi 10 hari (1x replace)</div>
+                    </div>
+                </div>
+                <div class="spec-option" data-spec="ultra-16-8">
+                    <input type="radio" name="specification" value="VPS RAM 16 CORE 8 ULTRA" class="spec-radio">
+                    <div class="spec-details">
+                        <div class="spec-name">VPS RAM 16 CORE 8</div>
+                        <div class="spec-info">Rp 200.000 / $12.50 / Rm57.14<br>Aktif 50 hari • Garansi 10 hari (1x replace)</div>
+                    </div>
+                </div>
+                <div class="spec-option" data-spec="ultra-32-8">
+                    <input type="radio" name="specification" value="VPS RAM 32 CORE 8 ULTRA" class="spec-radio">
+                    <div class="spec-details">
+                        <div class="spec-name">VPS RAM 32 CORE 8</div>
+                        <div class="spec-info">Rp 280.000 / $17.50 / Rm80<br>Aktif 35 hari • Garansi 15 hari (1x replace)</div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                <span class="whatsapp-icon">📱</span>
+                Kirim Order via WhatsApp
+            </button>
+        </form>
+    </div>
+</div>
+    
     </div>
 
     <script>
