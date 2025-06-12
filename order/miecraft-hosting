@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Order - ALWI STORE ID</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            width: 100%;
+            max-width: 500px;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1976D2;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e3f2fd;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f8fbff;
+            cursor: pointer;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #2196F3;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(33, 150, 243, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .preview {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 12px;
+            border-left: 4px solid #2196F3;
+        }
+
+        .preview h3 {
+            color: #1976D2;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .preview-text {
+            font-family: monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            color: #333;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .wa-icon {
+            display: inline-block;
+            margin-right: 8px;
+            font-size: 20px;
+        }
+
+        .edit-note {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e3f2fd;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #1976D2;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+                margin: 10px;
+            }
+            
+            .logo {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">💻 ALWI STORE ID</div>
+            <div class="subtitle">Form Order WhatsApp</div>
+        </div>
+
+        <form id="orderForm">
+            <div class="form-group">
+                <label for="kategori">Pilih Kategori:</label>
+                <select id="kategori" required>
+                    <option value="">-- Pilih Kategori --</option>
+                    <option value="Hosting Minecraft Basic">Hosting Minecraft Basic</option>
+                    <option value="Hosting Minecraft Premium">Hosting Minecraft Premium</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="produk">Pilih Produk:</label>
+                <select id="produk" required>
+                    <option value="">-- Pilih Produk --</option>
+                </select>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn" disabled>
+                <span class="wa-icon">📱</span>Kirim ke WhatsApp
+            </button>
+        </form>
+
+        <div class="preview" id="preview" style="display: none;">
+            <h3>Preview Pesan:</h3>
+            <div class="preview-text" id="previewText"></div>
+        </div>
+    </div>
+
+    <script>
+        // DATA PRODUK - MUDAH DIEDIT
+        // Format: kategori -> produk -> {paket, spek, harga}
+        const produkData = {
+            "Hosting Minecraft Basic": {
+                "Hosting Minecraft Basic 1": {
+                    paket: "Kelinci",
+                    spek: "RAM 1GB, CPU 100%, Disk 3GB",
+                    harga: "Rp 5.000"
+                },
+                 "Hosting Minecraft Basic 2": {
+                    paket: "Katak",
+                    spek: "RAM 2GB, CPU 150%, Disk 5GB",
+                    harga: "Rp 10.000"
+                },
+                 "Hosting Minecraft Basic 3": {
+                    paket: "Kucing",
+                    spek: "RAM 4GB, CPU 250%, Disk 8GB",
+                    harga: "Rp 20.000"
+                },
+                 "Hosting Minecraft Basic 4": {
+                    paket: "Ayam",
+                    spek: "RAM 5GB, CPU 300%, Disk 14GB",
+                    harga: "Rp 35.000"
+                },
+                 "Hosting Minecraft Basic 5": {
+                    paket: "Domba",
+                    spek: "RAM 6GB, CPU 300%, Disk 12GB",
+                    harga: "Rp 40.000"
+                },
+                 "Hosting Minecraft Basic 6": {
+                    paket: "Fox",
+                    spek: "RAM 7GB, CPU 400%, Disk 14GB",
+                    harga: "Rp 45.000"
+                },
+                 "Hosting Minecraft Basic 7": {
+                    paket: "Elang",
+                    spek: "RAM 8GB, CPU 400%, Disk 16GB",
+                    harga: "Rp 50.000"
+                },
+                 "Hosting Minecraft Basic 8": {
+                    paket: "Hiu",
+                    spek: "RAM 10GB, CPU 400%, Disk 18GB",
+                    harga: "Rp 65.000"
+                },
+                 "Hosting Minecraft Basic 9": {
+                    paket: "Serigala",
+                    spek: "RAM 10GB, CPU 500%, Disk 20GB",
+                    harga: "Rp 70.000"
+                },
+                 "Hosting Minecraft Basic 10": {
+                    paket: "Kelinci",
+                    spek: "RAM 12GB, CPU 500%, Disk 20GB",
+                    harga: "Rp 85.000"
+                },
+                 "Hosting Minecraft Basic 11": {
+                    paket: "Singa",
+                    spek: "RAM 14GB, CPU 600%, Disk 24GB",
+                    harga: "Rp 100.000"
+                },
+                 "Hosting Minecraft Basic 12": {
+                    paket: "Badak",
+                    spek: "RAM 15GB, CPU 600%, Disk 28GB",
+                    harga: "Rp 120.000"
+                },
+                 "Hosting Minecraft Basic 13": {
+                    paket: "Naga",
+                    spek: "RAM 16GB, CPU 700%, Disk 32GB",
+                    harga: "Rp 140.000"
+                },
+                 "Hosting Minecraft Basic 14": {
+                    paket: "Angin",
+                    spek: "RAM 18GB, CPU 700%, Disk 40GB",
+                    harga: "Rp 160.000"
+                },
+                 "Hosting Minecraft Basic 15": {
+                    paket: "Petir",
+                    spek: "RAM 20GB, CPU 800%, Disk 48GB",
+                    harga: "Rp 180.000"
+                },
+                 "Hosting Minecraft Basic 16": {
+                    paket: "Matahari",
+                    spek: "RAM 22GB, CPU 800%, Disk 56GB",
+                    harga: "Rp 200.000"
+                },
+            },
+            "Hosting Minecraft Premium": {
+                "Hosting Minecraft Premium 1": {
+                    paket: "Premium 1",
+                    spek: "RAM 1GB, CPU 100%, Disk 5GB",
+                    harga: "Rp 10.000"
+                },
+                "Hosting Minecraft Premium 2": {
+                    paket: "Premium 2",
+                    spek: "RAM 2GB, CPU 100%, Disk 10GB",
+                    harga: "Rp 20.000"
+                },
+                "Hosting Minecraft Premium 3": {
+                    paket: "Premium 3",
+                    spek: "RAM 3GB, CPU 200%, Disk 15GB",
+                    harga: "Rp 30.000"
+                },
+                "Hosting Minecraft Premium 4": {
+                    paket: "Premium 4",
+                    spek: "RAM 4GB, CPU 200%, Disk 20GB",
+                    harga: "Rp 40.000"
+                },
+                "Hosting Minecraft Premium 5": {
+                    paket: "Premium 5",
+                    spek: "RAM 5GB, CPU 300%, Disk 25GB",
+                    harga: "Rp 50.000"
+                },
+                "Hosting Minecraft Premium 6": {
+                    paket: "Premium 6",
+                    spek: "RAM 6GB, CPU 300%, Disk 30GB",
+                    harga: "Rp 60.000"
+                },
+                "Hosting Minecraft Premium 7": {
+                    paket: "Premium 7",
+                    spek: "RAM 7GB, CPU 400%, Disk 35GB",
+                    harga: "Rp 70.000"
+                },
+                "Hosting Minecraft Premium 8": {
+                    paket: "Premium 8",
+                    spek: "RAM 8GB, CPU 400%, Disk 40GB",
+                    harga: "Rp 80.000"
+                },
+                "Hosting Minecraft Premium 9": {
+                    paket: "Premium 9",
+                    spek: "RAM 9GB, CPU 500%, Disk 45GB",
+                    harga: "Rp 90.000"
+                },
+                "Hosting Minecraft Premium 10": {
+                    paket: "Premium 10",
+                    spek: "RAM 10GB, CPU 500%, Disk 50GB",
+                    harga: "Rp 100.000"
+                },
+                "Hosting Minecraft Premium 11": {
+                    paket: "Premium 11",
+                    spek: "RAM 11GB, CPU 600%, Disk 55GB",
+                    harga: "Rp 110.000"
+                },
+                "Hosting Minecraft Premium 12": {
+                    paket: "Premium 12",
+                    spek: "RAM 12GB, CPU 600%, Disk 60GB",
+                    harga: "Rp 120.000"
+                },
+                "Hosting Minecraft Premium 13": {
+                    paket: "Premium 13",
+                    spek: "RAM 13GB, CPU 700%, Disk 65GB",
+                    harga: "Rp 130.000"
+                },
+                "Hosting Minecraft Premium 14": {
+                    paket: "Premium 14",
+                    spek: "RAM 14GB, CPU 700%, Disk 70GB",
+                    harga: "Rp 140.000"
+                },
+                "Hosting Minecraft Premium 15": {
+                    paket: "Premium 15",
+                    spek: "RAM 15GB, CPU 800%, Disk 75GB",
+                    harga: "Rp 150.000"
+                },
+                "Hosting Minecraft Premium 16": {
+                    paket: "Premium 16",
+                    spek: "RAM 16GB, CPU 800%, Disk 80GB",
+                    harga: "Rp 160.000"
+                },
+            }
+        };
+
+        const kategoriSelect = document.getElementById('kategori');
+        const produkSelect = document.getElementById('produk');
+        const form = document.getElementById('orderForm');
+        const preview = document.getElementById('preview');
+        const previewText = document.getElementById('previewText');
+        const submitBtn = document.getElementById('submitBtn');
+
+        // Update produk berdasarkan kategori yang dipilih
+        kategoriSelect.addEventListener('change', function() {
+            const selectedKategori = this.value;
+            produkSelect.innerHTML = '<option value="">-- Pilih Produk --</option>';
+            
+            if (selectedKategori && produkData[selectedKategori]) {
+                Object.keys(produkData[selectedKategori]).forEach(produk => {
+                    const option = document.createElement('option');
+                    option.value = produk;
+                    option.textContent = produk;
+                    produkSelect.appendChild(option);
+                });
+            }
+            
+            produkSelect.value = '';
+            updatePreview();
+            updateSubmitButton();
+        });
+
+        // Update preview saat produk dipilih
+        produkSelect.addEventListener('change', function() {
+            updatePreview();
+            updateSubmitButton();
+        });
+
+        function updatePreview() {
+            const kategori = kategoriSelect.value;
+            const produk = produkSelect.value;
+
+            if (kategori && produk && produkData[kategori] && produkData[kategori][produk]) {
+                const data = produkData[kategori][produk];
+                const message = `𝗛𝗮𝗹𝗼 𝗞𝗮𝗸 𝗔𝗟𝗪𝗜 😇
+𝗦𝗮𝘆𝗮 𝗠𝗮𝘂 𝗢𝗿𝗱𝗲𝗿 𝗡𝗶𝗵 𝗞𝗮𝗸
+╭────────────────╮
+┃𝗣𝗿𝗼𝗱𝘂𝗸: ${produk}
+│𝗣𝗮𝗸𝗲𝘁: ${data.paket}
+┃𝗦𝗽𝗲𝗸: ${data.spek}
+│𝗛𝗮𝗿𝗴𝗮: ${data.harga}
+╰─────────────···
+> ©𝗔𝗟𝗪𝗜 𝗦𝗧𝗢𝗥𝗘 𝗜𝗗`;
+
+                previewText.textContent = message;
+                preview.style.display = 'block';
+            } else {
+                preview.style.display = 'none';
+            }
+        }
+
+        function updateSubmitButton() {
+            const kategori = kategoriSelect.value;
+            const produk = produkSelect.value;
+            
+            if (kategori && produk) {
+                submitBtn.disabled = false;
+            } else {
+                submitBtn.disabled = true;
+            }
+        }
+
+        // Handle form submission
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const kategori = kategoriSelect.value;
+            const produk = produkSelect.value;
+
+            if (!kategori || !produk) {
+                alert('Mohon pilih kategori dan produk terlebih dahulu!');
+                return;
+            }
+
+            const data = produkData[kategori][produk];
+            const message = `𝗛𝗮𝗹𝗼 𝗞𝗮𝗸 𝗔𝗟𝗪𝗜 😇
+𝗦𝗮𝘆𝗮 𝗠𝗮𝘂 𝗢𝗿𝗱𝗲𝗿 𝗡𝗶𝗵 𝗞𝗮𝗸
+╭────────────────╮
+┃𝗣𝗿𝗼𝗱𝘂𝗸: ${produk}
+│𝗣𝗮𝗸𝗲𝘁: ${data.paket}
+┃𝗦𝗽𝗲𝗸: ${data.spek}
+│𝗛𝗮𝗿𝗴𝗮: ${data.harga}
+╰─────────────···
+> ©𝗔𝗟𝗪𝗜 𝗦𝗧𝗢𝗥𝗘 𝗜𝗗`;
+
+            const whatsappUrl = `https://wa.me/6283155764643?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        });
+
+        // FUNGSI UNTUK MEMUDAHKAN EDIT DATA
+        // Contoh penggunaan:
+        
+        // 1. Menambah produk baru:
+        function tambahProduk(kategori, namaProduk, paket, spek, harga) {
+            if (!produkData[kategori]) {
+                produkData[kategori] = {};
+            }
+            produkData[kategori][namaProduk] = {
+                paket: paket,
+                spek: spek,
+                harga: harga
+            };
+            // Refresh dropdown jika kategori sedang dipilih
+            if (kategoriSelect.value === kategori) {
+                kategoriSelect.dispatchEvent(new Event('change'));
+            }
+        }
+
+        // 2. Mengedit produk yang sudah ada:
+        function editProduk(kategori, namaProduk, paket, spek, harga) {
+            if (produkData[kategori] && produkData[kategori][namaProduk]) {
+                produkData[kategori][namaProduk] = {
+                    paket: paket,
+                    spek: spek,
+                    harga: harga
+                };
+            }
+        }
+
+        // 3. Menambah kategori baru:
+        function tambahKategori(namaKategori) {
+            produkData[namaKategori] = {};
+            const option = document.createElement('option');
+            option.value = namaKategori;
+            option.textContent = namaKategori;
+            kategoriSelect.appendChild(option);
+        }
+    </script>
+</body>
+</html>
