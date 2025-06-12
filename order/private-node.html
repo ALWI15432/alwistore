@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Order - ALWI STORE ID</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            width: 100%;
+            max-width: 500px;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1976D2;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e3f2fd;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f8fbff;
+            cursor: pointer;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #2196F3;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(33, 150, 243, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .preview {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 12px;
+            border-left: 4px solid #2196F3;
+        }
+
+        .preview h3 {
+            color: #1976D2;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .preview-text {
+            font-family: monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            color: #333;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .wa-icon {
+            display: inline-block;
+            margin-right: 8px;
+            font-size: 20px;
+        }
+
+        .edit-note {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e3f2fd;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #1976D2;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+                margin: 10px;
+            }
+            
+            .logo {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">💻 ALWI STORE ID</div>
+            <div class="subtitle">Form Order WhatsApp</div>
+        </div>
+
+        <form id="orderForm">
+            <div class="form-group">
+                <label for="produk">Pilih Produk:</label>
+                <select id="produk" required>
+                    <option value="">-- Pilih Produk --</option>
+                    <option value="Private Node GOLD">Private Node GOLD</option>
+                    <option value="Private Node EMERALD">Private Node EMERALD</option>
+                    <option value="Private Node DIAMOND">Private Node DIAMOND</option>
+                    <option value="Private Node NETHERITE">Private Node NETHERITE</option>
+                    <option value="Private Node SPECIAL">Private Node SPECIAL</option>
+                </select>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn" disabled>
+                <span class="wa-icon">📱</span>Kirim ke WhatsApp
+            </button>
+        </form>
+
+        <div class="preview" id="preview" style="display: none;">
+            <h3>Preview Pesan:</h3>
+            <div class="preview-text" id="previewText"></div>
+        </div>
+    </div>
+
+    <script>
+        // DATA PRODUK - MUDAH DIEDIT
+        const produkData = {
+            "Private Node GOLD": {
+                paket: "Privat Node GOLD",
+                spek: "RAM 16GB, CPU 800%, Disk 64GB",
+                harga: "Rp 150.000"
+            },
+            "Private Node EMERALD": {
+                paket: "Privat Node EMERALD",
+                spek: "RAM 32GB, CPU 800%, Disk 128GB",
+                harga: "Rp 250.000"
+            },
+            "Private Node DIAMOND": {
+                paket: "Privat Node DIAMOND",
+                spek: "RAM 64GB, CPU 800%, Disk 256GB",
+                harga: "Rp 400.000"
+            },
+            "Private Node NETHERITE": {
+                paket: "Privat Node NETHERITE",
+                spek: "RAM 128GB, CPU 800%, Disk 256GB",
+                harga: "Rp 500.000"
+            },
+            "Private Node SPECIAL": {
+                paket: "Privat Node SPECIAL",
+                spek: "RAM 16GB, CPU 800%, Disk 64GB",
+                harga: "Rp 300.000"
+            }
+        };
+
+        const produkSelect = document.getElementById('produk');
+        const form = document.getElementById('orderForm');
+        const preview = document.getElementById('preview');
+        const previewText = document.getElementById('previewText');
+        const submitBtn = document.getElementById('submitBtn');
+
+        // Update preview saat produk dipilih
+        produkSelect.addEventListener('change', function() {
+            updatePreview();
+            updateSubmitButton();
+        });
+
+        function updatePreview() {
+            const produk = produkSelect.value;
+
+            if (produk && produkData[produk]) {
+                const data = produkData[produk];
+                const message = `𝗛𝗮𝗹𝗼 𝗞𝗮𝗸 𝗔𝗟𝗪𝗜 😇
+𝗦𝗮𝘆𝗮 𝗠𝗮𝘂 𝗢𝗿𝗱𝗲𝗿 𝗡𝗶𝗵 𝗞𝗮𝗸
+╭────────────────╮
+┃𝗣𝗿𝗼𝗱𝘂𝗸: ${produk}
+│𝗣𝗮𝗸𝗲𝘁: ${data.paket}
+┃𝗦𝗽𝗲𝗸: ${data.spek}
+│𝗛𝗮𝗿𝗴𝗮: ${data.harga}
+╰─────────────···
+> ©𝗔𝗟𝗪𝗜 𝗦𝗧𝗢𝗥𝗘 𝗜𝗗`;
+
+                previewText.textContent = message;
+                preview.style.display = 'block';
+            } else {
+                preview.style.display = 'none';
+            }
+        }
+
+        function updateSubmitButton() {
+            const produk = produkSelect.value;
+            
+            if (produk) {
+                submitBtn.disabled = false;
+            } else {
+                submitBtn.disabled = true;
+            }
+        }
+
+        // Handle form submission
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const produk = produkSelect.value;
+
+            if (!produk) {
+                alert('Mohon pilih produk terlebih dahulu!');
+                return;
+            }
+
+            const data = produkData[produk];
+            const message = `𝗛𝗮𝗹𝗼 𝗞𝗮𝗸 𝗔𝗟𝗪𝗜 😇
+𝗦𝗮𝘆𝗮 𝗠𝗮𝘂 𝗢𝗿𝗱𝗲𝗿 𝗡𝗶𝗵 𝗞𝗮𝗸
+╭────────────────╮
+┃𝗣𝗿𝗼𝗱𝘂𝗸: ${produk}
+│𝗣𝗮𝗸𝗲𝘁: ${data.paket}
+┃𝗦𝗽𝗲𝗸: ${data.spek}
+│𝗛𝗮𝗿𝗴𝗮: ${data.harga}
+╰─────────────···
+> ©𝗔𝗟𝗪𝗜 𝗦𝗧𝗢𝗥𝗘 𝗜𝗗`;
+
+            const whatsappUrl = `https://wa.me/6283155764643?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        });
+
+        // FUNGSI UNTUK MEMUDAHKAN EDIT DATA
+        // Contoh penggunaan:
+        
+        // 1. Menambah produk baru:
+        function tambahProduk(namaProduk, paket, spek, harga, durasi, garansi) {
+            produkData[namaProduk] = {
+                paket: paket,
+                spek: spek,
+                harga: harga,
+                durasi: durasi,
+                garansi: garansi
+            };
+            // Tambah option ke dropdown
+            const option = document.createElement('option');
+            option.value = namaProduk;
+            option.textContent = namaProduk;
+            produkSelect.appendChild(option);
+        }
+
+        // 2. Mengedit produk yang sudah ada:
+        function editProduk(namaProduk, paket, spek, harga, durasi, garansi) {
+            if (produkData[namaProduk]) {
+                produkData[namaProduk] = {
+                    paket: paket,
+                    spek: spek,
+                    harga: harga,
+                    durasi: durasi,
+                    garansi: garansi
+                };
+            }
+        }
+    </script>
+</body>
+</html>
