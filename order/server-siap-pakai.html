@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Order - ALWI STORE ID</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            width: 100%;
+            max-width: 1200px;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1976D2;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .form-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .video-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e3f2fd;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f8fbff;
+            cursor: pointer;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #2196F3;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(33, 150, 243, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .video-preview {
+            width: 100%;
+            max-width: 450px;
+            background: #f5f5f5;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .video-preview.active {
+            background: linear-gradient(135deg, #f8fbff, #e3f2fd);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(33, 150, 243, 0.2);
+        }
+
+        .video-container {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(45deg, #e0e0e0, #f5f5f5);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: #999;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 12px;
+        }
+
+        .video-preview.active .video-container {
+            background: linear-gradient(45deg, #2196F3, #1976D2);
+            color: white;
+        }
+
+        .video-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .video-preview.active .video-title {
+            color: #1976D2;
+        }
+
+        .video-description {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .video-preview.active .video-description {
+            color: #1976D2;
+        }
+
+        .preview {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 12px;
+            border-left: 4px solid #2196F3;
+            grid-column: 1 / -1;
+        }
+
+        .preview h3 {
+            color: #1976D2;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .preview-text {
+            font-family: monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            color: #333;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .wa-icon {
+            display: inline-block;
+            margin-right: 8px;
+            font-size: 20px;
+        }
+
+        .no-product-message {
+            color: #999;
+            font-style: italic;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .product-specs {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(33, 150, 243, 0.1);
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .spec-label {
+            font-weight: 600;
+            color: #1976D2;
+        }
+
+        .spec-value {
+            color: #333;
+        }
+
+        .price-highlight {
+            font-size: 18px;
+            font-weight: 700;
+            color: #4CAF50;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .container {
+                padding: 25px;
+                margin: 10px;
+            }
+            
+            .logo {
+                font-size: 28px;
+            }
+
+            .video-preview {
+                max-width: 100%;
+            }
+
+            .video-container {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">💻 ALWI STORE ID</div>
+            <div class="subtitle">Form Order WhatsApp</div>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="form-section">
+                <form id="orderForm">
+                    <div class="form-group">
+                        <label for="produk">Pilih Produk:</label>
+                        <select id="produk" required>
+                            <option value="">-- Pilih Produk --</option>
+                            <option value="Server Siap Pakai ECO">Server Siap Pakai ECO</option>
+                            <option value="Server Siap Pakai ECO X BL">Server Siap Pakai ECO X BL</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn" disabled>
+                        <span class="wa-icon">📱</span>Kirim ke WhatsApp
+                    </button>
+                </form>
+            </div>
+
+            <div class="video-section">
+                <div class="video-preview" id="videoPreview">
+                    <div class="video-container" id="videoContainer">
+                        🎥
+                    </div>
+                    <div class="video-title" id="videoTitle">Preview Video</div>
+                    <div class="video-description" id="videoDescription">
+                        <div class="no-product-message">Pilih produk untuk melihat preview video</div>
+                    </div>
+                    <div class="product-specs" id="productSpecs" style="display: none;">
+                        <!-- Specs will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="preview" id="preview" style="display: none;">
+            <h3>Preview Pesan:</h3>
+            <div class="preview-text" id="previewText"></div>
+        </div>
+    </div>
+
+    <script>
+        // DATA PRODUK dengan YouTube URLs yang sudah dikonversi ke embed format
+        const produkData = {
+            "Server Siap Pakai ECO": {
+                paket: "Server Siap Pakai ECO",
+                spek: "RAM 16GB, CPU 8 Core, 64GB Disk",
+                harga: "Rp 250.000/bulan",
+                videoTitle: "Demo Server ECO",
+                videoDescription: "Server siap pakai dengan performa optimal untuk kebutuhan dasar.",
+                videoUrl: "https://www.youtube.com/embed/mhajxisuUD8",
+                videoThumbnail: "🖥️",
+                features: ["Easy Setup", "24/7 Support", "SSD Storage"]
+            },
+            "Server Siap Pakai ECO X BL": {
+                paket: "Server Siap Pakai ECO X BL",
+                spek: "RAM 64GB, CPU 8 Core, 128GB Disk",
+                harga: "Rp 300.000/bulan",
+                videoTitle: "Demo Server ECO X BL",
+                videoDescription: "Server premium dengan spesifikasi tinggi dan performa maksimal.",
+                videoUrl: "https://www.youtube.com/embed/AIMoFpW8xTc",
+                videoThumbnail: "🚀",
+                features: ["High Performance", "Premium Support", "Large SSD", "Enhanced Security"]
+            }
+        };
+
+        const produkSelect = document.getElementById('produk');
+        const form = document.getElementById('orderForm');
+        const preview = document.getElementById('preview');
+        const previewText = document.getElementById('previewText');
+        const submitBtn = document.getElementById('submitBtn');
+        const videoPreview = document.getElementById('videoPreview');
+        const videoContainer = document.getElementById('videoContainer');
+        const videoTitle = document.getElementById('videoTitle');
+        const videoDescription = document.getElementById('videoDescription');
+        const productSpecs = document.getElementById('productSpecs');
+
+        // Fungsi untuk mengkonversi YouTube URL ke embed format
+        function getYouTubeEmbedUrl(url) {
+            // Handle different YouTube URL formats
+            let videoId = '';
+            
+            if (url.includes('youtu.be/')) {
+                videoId = url.split('youtu.be/')[1].split('?')[0];
+            } else if (url.includes('youtube.com/watch?v=')) {
+                videoId = url.split('v=')[1].split('&')[0];
+            } else if (url.includes('youtube.com/embed/')) {
+                return url; // Already embed format
+            }
+            
+            return `https://www.youtube.com/embed/${videoId}`;
+        }
+
+        // Update preview dan video saat produk dipilih
+        produkSelect.addEventListener('change', function() {
+            updatePreview();
+            updateVideoPreview();
+            updateSubmitButton();
+        });
+
+        function updateVideoPreview() {
+            const produk = produkSelect.value;
+
+            if (produk && produkData[produk]) {
+                const data = produkData[produk];
+                
+                // Update video preview
+                videoPreview.classList.add('active');
+                
+                // Create YouTube iframe
+                const embedUrl = getYouTubeEmbedUrl(data.videoUrl);
+                videoContainer.innerHTML = `
+                    <iframe src="${embedUrl}?autoplay=0&rel=0&modestbranding=1" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                    </iframe>
+                `;
+                
+                videoTitle.textContent = data.videoTitle;
+                videoDescription.textContent = data.videoDescription;
+                
+                // Show product specs
+                productSpecs.style.display = 'block';
+                productSpecs.innerHTML = `
+                    <div class="spec-item">
+                        <span class="spec-label">Paket:</span>
+                        <span class="spec-value">${data.paket}</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Spesifikasi:</span>
+                        <span class="spec-value">${data.spek}</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Features:</span>
+                        <span class="spec-value">${data.features ? data.features.join(', ') : 'Standard Features'}</span>
+                    </div>
+                    <div class="price-highlight">${data.harga}</div>
+                `;
+                
+            } else {
+                // Reset video preview
+                videoPreview.classList.remove('active');
+                videoContainer.innerHTML = '🎥';
+                videoTitle.textContent = 'Preview Video';
+                videoDescription.innerHTML = '<div class="no-product-message">Pilih produk untuk melihat preview video</div>';
+                productSpecs.style.display = 'none';
+            }
+        }
+
+        function updatePreview() {
+            const produk = produkSelect.value;
+
+            if (produk && produkData[produk]) {
+                const data = produkData[produk];
+                const message = `𝗛𝗮𝗹𝗼 𝗞𝗮𝗸 𝗔𝗟𝗪𝗜 😇
+𝗦𝗮𝘆𝗮 𝗠𝗮𝘂 𝗢𝗿𝗱𝗲𝗿 𝗡𝗶𝗵 𝗞𝗮𝗸
+╭────────────────╮
+┃𝗣𝗿𝗼𝗱𝘂𝗸: ${produk}
+│𝗣𝗮𝗸𝗲𝘁: ${data.paket}
+┃𝗦𝗽𝗲𝗸: ${data.spek}
+│𝗛𝗮𝗿𝗴𝗮: ${data.harga}
+╰─────────────···
+> ©𝗔𝗟𝗪𝗜 𝗦𝗧𝗢𝗥𝗘 𝗜𝗗`;
+
+                previewText.textContent = message;
+                preview.style.display = 'block';
+            } else {
+                preview.style.display = 'none';
+            }
+        }
+
+        function updateSubmitButton() {
+            const produk = produkSelect.value;
+            
+            if (produk) {
+                submitBtn.disabled = false;
+            } else {
+                submitBtn.disabled = true;
+            }
+        }
+
+        // Handle form submission
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const produk = produkSelect.value;
+
+            if (!produk) {
+                alert('Mohon pilih produk terlebih dahulu!');
+                return;
+            }
+
+            const data = produkData[produk];
+            const message = `𝗛𝗮𝗹𝗼 𝗞𝗮𝗸 𝗔𝗟𝗪𝗜 😇
+𝗦𝗮𝘆𝗮 𝗠𝗮𝘂 𝗢𝗿𝗱𝗲𝗿 𝗡𝗶𝗵 𝗞𝗮𝗸
+╭────────────────╮
+┃𝗣𝗿𝗼𝗱𝘂𝗸: ${produk}
+│𝗣𝗮𝗸𝗲𝘁: ${data.paket}
+┃𝗦𝗽𝗲𝗸: ${data.spek}
+│𝗛𝗮𝗿𝗴𝗮: ${data.harga}
+╰─────────────···
+> ©𝗔𝗟𝗪𝗜 𝗦𝗧𝗢𝗥𝗘 𝗜𝗗`;
+
+            const whatsappUrl = `https://wa.me/6283155764643?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        });
+
+        // FUNGSI UNTUK MEMUDAHKAN EDIT DATA
+        function tambahProduk(namaProduk, paket, spek, harga, videoTitle, videoDescription, videoUrl, videoThumbnail, features = []) {
+            // Convert YouTube URL to embed format
+            const embedUrl = getYouTubeEmbedUrl(videoUrl);
+            
+            produkData[namaProduk] = {
+                paket: paket,
+                spek: spek,
+                harga: harga,
+                videoTitle: videoTitle,
+                videoDescription: videoDescription,
+                videoUrl: embedUrl,
+                videoThumbnail: videoThumbnail,
+                features: features
+            };
+            
+            // Tambah option ke dropdown
+            const option = document.createElement('option');
+            option.value = namaProduk;
+            option.textContent = namaProduk;
+            produkSelect.appendChild(option);
+            
+            console.log(`Produk "${namaProduk}" berhasil ditambahkan!`);
+        }
+
+        function editProduk(namaProduk, paket, spek, harga, videoTitle, videoDescription, videoUrl, videoThumbnail, features = []) {
+            if (produkData[namaProduk]) {
+                const embedUrl = getYouTubeEmbedUrl(videoUrl);
+                
+                produkData[namaProduk] = {
+                    paket: paket,
+                    spek: spek,
+                    harga: harga,
+                    videoTitle: videoTitle,
+                    videoDescription: videoDescription,
+                    videoUrl: embedUrl,
+                    videoThumbnail: videoThumbnail,
+                    features: features
+                };
+                console.log(`Produk "${namaProduk}" berhasil diupdate!`);
+                
+                // Refresh preview jika produk yang sedang dipilih adalah yang diedit
+                if (produkSelect.value === namaProduk) {
+                    updatePreview();
+                    updateVideoPreview();
+                }
+            } else {
+                console.log(`Produk "${namaProduk}" tidak ditemukan!`);
+            }
+        }
+
+        // Contoh penggunaan:
+        // tambahProduk("Server VPS Gold", "VPS Gold Package", "RAM 32GB, CPU 16 Core, SSD 128GB", "Rp 500.000/bulan", "Demo VPS Gold", "Server VPS dengan performa super tinggi", "https://youtu.be/example", "⭐", ["Root Access", "Full Control", "Custom OS"]);
+
+        console.log('Form Order ALWI STORE ID dengan YouTube Player berhasil dimuat!');
+        console.log('Untuk menambah produk baru, gunakan: tambahProduk(nama, paket, spek, harga, videoTitle, desc, videoUrl, thumbnail, features)');
+        console.log('Untuk mengedit produk, gunakan: editProduk(nama, paket, spek, harga, videoTitle, desc, videoUrl, thumbnail, features)');
+    </script>
+</body>
+</html>
