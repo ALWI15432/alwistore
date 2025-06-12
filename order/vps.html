@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Order VPS Hosting</title>
-     <style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Order - ALWI STORE ID</title>
+    <style>
         * {
             margin: 0;
             padding: 0;
@@ -13,41 +13,50 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
             min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 20px;
         }
 
         .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
+            background: white;
             border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-            overflow: hidden;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            width: 100%;
+            max-width: 500px;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .header {
-            background: linear-gradient(135deg, #2196F3, #21CBF3);
-            color: white;
-            padding: 30px;
             text-align: center;
+            margin-bottom: 35px;
         }
 
-        .header h1 {
-            font-size: 2.5em;
+        .logo {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1976D2;
             margin-bottom: 10px;
-            font-weight: 300;
         }
 
-        .header p {
-            opacity: 0.9;
-            font-size: 1.1em;
-        }
-
-        .form-container {
-            padding: 40px;
+        .subtitle {
+            color: #666;
+            font-size: 16px;
         }
 
         .form-group {
@@ -59,358 +68,334 @@
             margin-bottom: 8px;
             color: #333;
             font-weight: 600;
-            font-size: 1.1em;
+            font-size: 16px;
         }
 
-        input[type="text"], input[type="tel"] {
+        select {
             width: 100%;
             padding: 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
+            border: 2px solid #e3f2fd;
+            border-radius: 12px;
             font-size: 16px;
             transition: all 0.3s ease;
-            background: #f8f9fa;
+            background: #f8fbff;
+            cursor: pointer;
         }
 
-        input[type="text"]:focus, input[type="tel"]:focus {
+        select:focus {
             outline: none;
             border-color: #2196F3;
             background: white;
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.2);
-        }
-
-        .category-section {
-            margin: 30px 0;
-        }
-
-        .category-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .category-btn {
-            padding: 20px;
-            border: 3px solid #e0e0e0;
-            border-radius: 15px;
-            background: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .category-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-
-        .category-btn.active {
-            border-color: #2196F3;
-            background: linear-gradient(135deg, #2196F3, #21CBF3);
-            color: white;
-        }
-
-        .category-btn h3 {
-            font-size: 1.5em;
-            margin-bottom: 10px;
-        }
-
-        .category-btn p {
-            opacity: 0.8;
-        }
-
-        .specs-container {
-            margin-top: 20px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 15px;
-            border: 2px solid #e0e0e0;
-        }
-
-        .spec-option {
-            display: flex;
-            align-items: center;
-            padding: 15px;
-            margin: 10px 0;
-            background: white;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-
-        .spec-option:hover {
-            transform: translateX(5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .spec-option.selected {
-            border-color: #2196F3;
-            background: linear-gradient(90deg, rgba(33, 150, 243, 0.1), rgba(33, 203, 243, 0.1));
-        }
-
-        .spec-radio {
-            margin-right: 15px;
-            transform: scale(1.2);
-        }
-
-        .spec-details {
-            flex: 1;
-        }
-
-        .spec-name {
-            font-weight: 600;
-            font-size: 1.1em;
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        .spec-info {
-            color: #666;
-            font-size: 0.9em;
-        }
-
-        .spec-price {
-            font-weight: bold;
-            color: #2196F3;
-            font-size: 1.2em;
         }
 
         .submit-btn {
             width: 100%;
             padding: 18px;
-            background: linear-gradient(135deg, #4CAF50, #45a049);
+            background: linear-gradient(135deg, #2196F3, #1976D2);
             color: white;
             border: none;
-            border-radius: 15px;
-            font-size: 1.2em;
+            border-radius: 12px;
+            font-size: 18px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 30px;
-            position: relative;
-            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(76, 175, 80, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(33, 150, 243, 0.4);
         }
 
         .submit-btn:active {
-            transform: translateY(0);
+            transform: translateY(-1px);
         }
 
-        .hidden {
-            display: none;
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
         }
 
-        .whatsapp-icon {
+        .preview {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 12px;
+            border-left: 4px solid #2196F3;
+        }
+
+        .preview h3 {
+            color: #1976D2;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .preview-text {
+            font-family: monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            color: #333;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .wa-icon {
             display: inline-block;
-            margin-right: 10px;
-            font-size: 1.3em;
+            margin-right: 8px;
+            font-size: 20px;
         }
 
-        @media (max-width: 768px) {
-            .category-buttons {
-                grid-template-columns: 1fr;
+        .edit-note {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e3f2fd;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #1976D2;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+                margin: 10px;
             }
             
-            .form-container {
-                padding: 20px;
+            .logo {
+                font-size: 28px;
             }
-            
-            .header h1 {
-                font-size: 2em;
-            }
-        }
-
-        .error {
-            color: #f44336;
-            font-size: 0.9em;
-            margin-top: 5px;
-        }
-
-        .floating-animation {
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
         }
     </style>
 </head>
 <body>
-  <div class="container">
-    <div class="header floating-animation">
-      <h1>🚀 VPS Hosting Order</h1>
-      <p>Pilih paket VPS terbaik untuk kebutuhan Anda</p>
+    <div class="container">
+        <div class="header">
+            <div class="logo">💻 ALWI STORE ID</div>
+            <div class="subtitle">Form Order WhatsApp</div>
+        </div>
+
+        <form id="orderForm">
+            <div class="form-group">
+                <label for="kategori">Pilih Kategori:</label>
+                <select id="kategori" required>
+                    <option value="">-- Pilih Kategori --</option>
+                    <option value="VPS High Quality">Hosting Minecraft Basic</option>
+                    <option value="VPS Ultra Quality">Hosting Minecraft Premium</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="produk">Pilih Produk:</label>
+                <select id="produk" required>
+                    <option value="">-- Pilih Produk --</option>
+                </select>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn" disabled>
+                <span class="wa-icon">📱</span>Kirim ke WhatsApp
+            </button>
+        </form>
+
+        <div class="preview" id="preview" style="display: none;">
+            <h3>Preview Pesan:</h3>
+            <div class="preview-text" id="previewText"></div>
+        </div>
+
+
     </div>
 
-    <div class="form-container">
-      <form id="orderForm">
-        <div class="form-group">
-          <label for="nama">Nama Lengkap</label>
-          <input type="text" id="nama" name="nama" required placeholder="Masukkan nama lengkap Anda" />
-          <div class="error" id="namaError"></div>
-        </div>
+    <script>
+        // DATA PRODUK - MUDAH DIEDIT
+        // Format: kategori -> produk -> {paket, spek, harga}
+        const produkData = {
+            "Hosting Minecraft Basic": {
+                "Hosting Minecraft Basic 1": {
+                    paket: "Kelinci",
+                    spek: "1 vCPU, 1GB RAM, 3GB Disk",
+                    harga: "Rp 5.000"
+                },
+                "Hosting Minecraft Basic 2": {
+                    paket: "2",
+                    spek: "4 vCPU, 16GB RAM",
+                    harga: "Rp 70.000"
+                },
+                "Hosting Minecraft Basic 3": {
+                    paket: "3",
+                    spek: "8 vCPU, 16GB RAM",
+                    harga: "Rp 100.000"
+                },
+                "Hosting Minecraft Basic 4": {
+                    paket: "4",
+                    spek: "8 vCPU, 32GB RAM",
+                    harga: "Rp 140.000"
+                }
+            },
+            "VPS Ultra Quality": {
+                "VPS Ultra Quality Plan 1": {
+                    paket: "1",
+                    spek: "4 vCPU, 16GB RAM",
+                    harga: "Rp 140.000"
+                },
+                "VPS Ultra Quality Plan 2": {
+                    paket: "2",
+                    spek: "8 vCPU, 16GB RAM",
+                    harga: "Rp 200.000"
+                },
+                "VPS Ultra Quality Plan 3": {
+                    paket: "3",
+                    spek: "8 vCPU, 32GB RAM",
+                    harga: "Rp 280.000"
+                }
+            }
+        };
 
-        <div class="form-group">
-          <label for="whatsapp">Nomor WhatsApp</label>
-          <input type="tel" id="whatsapp" name="whatsapp" required placeholder="Contoh: 08123456789" />
-          <div class="error" id="whatsappError"></div>
-        </div>
+        const kategoriSelect = document.getElementById('kategori');
+        const produkSelect = document.getElementById('produk');
+        const form = document.getElementById('orderForm');
+        const preview = document.getElementById('preview');
+        const previewText = document.getElementById('previewText');
+        const submitBtn = document.getElementById('submitBtn');
 
-        <div class="category-section">
-          <label>Pilih Kategori VPS</label>
-          <div class="category-buttons">
-            <div class="category-btn" data-category="high">
-              <h3>⚡ HIGH QUALITY</h3>
-              <p>Performa tinggi untuk kebutuhan umum</p>
-            </div>
-            <div class="category-btn" data-category="ultra">
-              <h3>🔥 ULTRA QUALITY</h3>
-              <p>Performa maksimal dengan durasi lebih lama</p>
-            </div>
-          </div>
-        </div>
+        // Update produk berdasarkan kategori yang dipilih
+        kategoriSelect.addEventListener('change', function() {
+            const selectedKategori = this.value;
+            produkSelect.innerHTML = '<option value="">-- Pilih Produk --</option>';
+            
+            if (selectedKategori && produkData[selectedKategori]) {
+                Object.keys(produkData[selectedKategori]).forEach(produk => {
+                    const option = document.createElement('option');
+                    option.value = produk;
+                    option.textContent = produk;
+                    produkSelect.appendChild(option);
+                });
+            }
+            
+            produkSelect.value = '';
+            updatePreview();
+            updateSubmitButton();
+        });
 
-        <!-- High Quality Specs -->
-        <div id="highSpecs" class="specs-container hidden">
-          <h3 style="margin-bottom: 15px; color: #333;">📊 Spesifikasi High Quality</h3>
-          <div class="spec-option">
-            <input type="radio" name="specification" value="VPS RAM 8 CORE 4" class="spec-radio" />
-            <div class="spec-details">
-              <div class="spec-name">VPS RAM 8 CORE 4</div>
-              <div class="spec-info">Rp 60.000 / $3.75 / Rm17.14<br>Aktif 30 hari • Garansi 10 hari (1x replace)</div>
-            </div>
-          </div>
-          <div class="spec-option">
-            <input type="radio" name="specification" value="VPS RAM 16 CORE 4" class="spec-radio" />
-            <div class="spec-details">
-              <div class="spec-name">VPS RAM 16 CORE 4</div>
-              <div class="spec-info">Rp 70.000 / $4.38 / Rm20<br>Aktif 30 hari • Garansi 15 hari (1x replace)</div>
-            </div>
-          </div>
-          <div class="spec-option">
-            <input type="radio" name="specification" value="VPS RAM 16 CORE 8" class="spec-radio" />
-            <div class="spec-details">
-              <div class="spec-name">VPS RAM 16 CORE 8</div>
-              <div class="spec-info">Rp 100.000 / $6.25 / Rm28.57<br>Aktif 30 hari • Garansi 10 hari (1x replace)</div>
-            </div>
-          </div>
-          <div class="spec-option">
-            <input type="radio" name="specification" value="VPS RAM 32 CORE 8" class="spec-radio" />
-            <div class="spec-details">
-              <div class="spec-name">VPS RAM 32 CORE 8</div>
-              <div class="spec-info">Rp 140.000 / $8.75 / Rm40<br>Aktif 30 hari • Garansi 5 hari (1x replace)</div>
-            </div>
-          </div>
-        </div>
+        // Update preview saat produk dipilih
+        produkSelect.addEventListener('change', function() {
+            updatePreview();
+            updateSubmitButton();
+        });
 
-        <!-- Ultra Quality Specs -->
-        <div id="ultraSpecs" class="specs-container hidden">
-          <h3 style="margin-bottom: 15px; color: #333;">💎 Spesifikasi Ultra Quality</h3>
-          <div class="spec-option">
-            <input type="radio" name="specification" value="ULTRA VPS RAM 16 CORE 8" class="spec-radio" />
-            <div class="spec-details">
-              <div class="spec-name">ULTRA VPS RAM 16 CORE 8</div>
-              <div class="spec-info">Rp 130.000 / $8.13 / Rm37.14<br>Aktif 60 hari • Garansi 20 hari (2x replace)</div>
-            </div>
-          </div>
-          <div class="spec-option">
-            <input type="radio" name="specification" value="ULTRA VPS RAM 32 CORE 8" class="spec-radio" />
-            <div class="spec-details">
-              <div class="spec-name">ULTRA VPS RAM 32 CORE 8</div>
-              <div class="spec-info">Rp 170.000 / $10.63 / Rm48.57<br>Aktif 60 hari • Garansi 30 hari (2x replace)</div>
-            </div>
-          </div>
-        </div>
-         <button type="button" class="submit-btn" onclick="kirimWhatsapp()">Kirim Order via WhatsApp</button>
-      </form>
-    </div>
-  </div>
+        function updatePreview() {
+            const kategori = kategoriSelect.value;
+            const produk = produkSelect.value;
 
-<script>
-  const categoryButtons = document.querySelectorAll(".category-btn");
-  const highSpecs = document.getElementById("highSpecs");
-  const ultraSpecs = document.getElementById("ultraSpecs");
-  const specOptions = document.querySelectorAll(".spec-option");
-
-  categoryButtons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      categoryButtons.forEach((b) => b.classList.remove("active"));
-      btn.classList.add("active");
-
-      const category = btn.getAttribute("data-category");
-
-      if (category === "high") {
-        highSpecs.classList.remove("hidden");
-        ultraSpecs.classList.add("hidden");
-      } else {
-        highSpecs.classList.add("hidden");
-        ultraSpecs.classList.remove("hidden");
-      }
-    });
-  });
-
-  specOptions.forEach((option) => {
-    option.addEventListener("click", () => {
-      specOptions.forEach((o) => o.classList.remove("selected"));
-      option.classList.add("selected");
-      option.querySelector("input[type=radio]").checked = true;
-    });
-  });
-
-  function kirimWhatsapp() {
-    const nama = document.getElementById("nama").value.trim();
-    const whatsapp = document.getElementById("whatsapp").value.trim();
-    const spec = document.querySelector('input[name="specification"]:checked');
-
-    document.getElementById("namaError").textContent = "";
-    document.getElementById("whatsappError").textContent = "";
-
-    if (!nama) {
-      document.getElementById("namaError").textContent = "Nama tidak boleh kosong";
-      return;
-    }
-
-    if (!whatsapp) {
-      document.getElementById("whatsappError").textContent = "Nomor WhatsApp tidak boleh kosong";
-      return;
-    }
-
-    if (!spec) {
-      alert("Silakan pilih salah satu spesifikasi VPS.");
-      return;
-    }
-
-    // Ambil detail dari elemen terpilih
-    const produk = "VPS"; // Bisa diganti sesuai kebutuhan
-    const paket = spec.dataset.paket || "Tidak diketahui";
-    const spek = spec.dataset.spek || "Tidak diketahui";
-    const harga = spec.dataset.harga || "Tidak diketahui";
-
-    const message = `𝗛𝗮𝗹𝗼 𝗞𝗮𝗸 𝗔𝗟𝗪𝗜 😇
+            if (kategori && produk && produkData[kategori] && produkData[kategori][produk]) {
+                const data = produkData[kategori][produk];
+                const message = `𝗛𝗮𝗹𝗼 𝗞𝗮𝗸 𝗔𝗟𝗪𝗜 😇
 𝗦𝗮𝘆𝗮 𝗠𝗮𝘂 𝗢𝗿𝗱𝗲𝗿 𝗡𝗶𝗵 𝗞𝗮𝗸
+╭────────────────╮
+┃𝗣𝗿𝗼𝗱𝘂𝗸: ${produk}
+│𝗣𝗮𝗸𝗲𝘁: ${data.paket}
+┃𝗦𝗽𝗲𝗸: ${data.spek}
+│𝗛𝗮𝗿𝗴𝗮: ${data.harga}
+╰─────────────···
+> ©𝗔𝗟𝗪𝗜 𝗦𝗧𝗢𝗥𝗘 𝗜𝗗`;
 
-╭────────────────────╮
-┃ 𝗣𝗿𝗼𝗱𝘂𝗸: ${produk}
-│ 𝗣𝗮𝗸𝗲𝘁: ${paket}
-┃ 𝗦𝗽𝗲𝗸 : ${spek}
-│ 𝗛𝗮𝗿𝗴𝗮: ${harga}
-╰────────────────────╯
+                previewText.textContent = message;
+                preview.style.display = 'block';
+            } else {
+                preview.style.display = 'none';
+            }
+        }
 
-> ©𝗔𝗟𝗪𝗜 𝗦𝗧𝗢𝗥𝗘 𝗜D`;
+        function updateSubmitButton() {
+            const kategori = kategoriSelect.value;
+            const produk = produkSelect.value;
+            
+            if (kategori && produk) {
+                submitBtn.disabled = false;
+            } else {
+                submitBtn.disabled = true;
+            }
+        }
 
-    window.location.href = `https://wa.me/6283155764643?text=${encodeURIComponent(message)}`;
-  }
-</script>
+        // Handle form submission
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const kategori = kategoriSelect.value;
+            const produk = produkSelect.value;
 
+            if (!kategori || !produk) {
+                alert('Mohon pilih kategori dan produk terlebih dahulu!');
+                return;
+            }
+
+            const data = produkData[kategori][produk];
+            const message = `𝗛𝗮𝗹𝗼 𝗞𝗮𝗸 𝗔𝗟𝗪𝗜 😇
+𝗦𝗮𝘆𝗮 𝗠𝗮𝘂 𝗢𝗿𝗱𝗲𝗿 𝗡𝗶𝗵 𝗞𝗮𝗸
+╭────────────────╮
+┃𝗣𝗿𝗼𝗱𝘂𝗸: ${produk}
+│𝗣𝗮𝗸𝗲𝘁: ${data.paket}
+┃𝗦𝗽𝗲𝗸: ${data.spek}
+│𝗛𝗮𝗿𝗴𝗮: ${data.harga}
+╰─────────────···
+> ©𝗔𝗟𝗪𝗜 𝗦𝗧𝗢𝗥𝗘 𝗜𝗗`;
+
+            const whatsappUrl = `https://wa.me/6283155764643?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        });
+
+        // FUNGSI UNTUK MEMUDAHKAN EDIT DATA
+        // Contoh penggunaan:
+        
+        // 1. Menambah produk baru:
+        function tambahProduk(kategori, namaProduk, paket, spek, harga) {
+            if (!produkData[kategori]) {
+                produkData[kategori] = {};
+            }
+            produkData[kategori][namaProduk] = {
+                paket: paket,
+                spek: spek,
+                harga: harga
+            };
+            // Refresh dropdown jika kategori sedang dipilih
+            if (kategoriSelect.value === kategori) {
+                kategoriSelect.dispatchEvent(new Event('change'));
+            }
+        }
+
+        // 2. Mengedit produk yang sudah ada:
+        function editProduk(kategori, namaProduk, paket, spek, harga) {
+            if (produkData[kategori] && produkData[kategori][namaProduk]) {
+                produkData[kategori][namaProduk] = {
+                    paket: paket,
+                    spek: spek,
+                    harga: harga
+                };
+            }
+        }
+
+        // 3. Menambah kategori baru:
+        function tambahKategori(namaKategori) {
+            produkData[namaKategori] = {};
+            const option = document.createElement('option');
+            option.value = namaKategori;
+            option.textContent = namaKategori;
+            kategoriSelect.appendChild(option);
+        }
+
+        // CONTOH PENGGUNAAN (uncomment untuk menggunakan):
+        
+        // tambahProduk("VPS High Quality", "VPS Premium", "1 Bulan", "12 vCPU, 12GB RAM, 300GB SSD, 12TB Bandwidth", "Rp 600.000");
+        
+        // editProduk("VPS Ultra Quality", "VPS Ultra Starter", "3 Bulan", "2 vCPU, 4GB RAM, 50GB NVMe SSD, Unlimited Bandwidth", "Rp 400.000");
+        
+        // tambahKategori("VPS Premium Quality");
+        // tambahProduk("VPS Premium Quality", "VPS Supreme", "1 Bulan", "64 vCPU, 128GB RAM, 1TB NVMe SSD, Unlimited Bandwidth", "Rp 5.000.000");
+    </script>
 </body>
 </html>
