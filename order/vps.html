@@ -61,6 +61,7 @@
 
         .form-group {
             margin-bottom: 25px;
+            position: relative;
         }
 
         label {
@@ -90,6 +91,28 @@
             transform: translateY(-2px);
         }
 
+        select.error {
+            border-color: #f44336;
+            background: #ffebee;
+        }
+
+        .error-message {
+            color: #f44336;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .submit-btn {
             width: 100%;
             padding: 18px;
@@ -103,14 +126,15 @@
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
+            position: relative;
         }
 
-        .submit-btn:hover {
+        .submit-btn:hover:not(:disabled) {
             transform: translateY(-3px);
             box-shadow: 0 10px 30px rgba(33, 150, 243, 0.4);
         }
 
-        .submit-btn:active {
+        .submit-btn:active:not(:disabled) {
             transform: translateY(-1px);
         }
 
@@ -118,6 +142,30 @@
             opacity: 0.6;
             cursor: not-allowed;
             transform: none;
+        }
+
+        .submit-btn.loading {
+            cursor: not-allowed;
+        }
+
+        .submit-btn.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin-left: -10px;
+            margin-top: -10px;
+            border: 2px solid transparent;
+            border-top: 2px solid #ffffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .preview {
@@ -152,14 +200,33 @@
             font-size: 20px;
         }
 
-        .edit-note {
-            margin-top: 20px;
-            padding: 15px;
-            background: #e3f2fd;
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
             border-radius: 8px;
-            font-size: 12px;
-            color: #1976D2;
-            text-align: center;
+            color: white;
+            font-weight: 600;
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: #4CAF50;
+        }
+
+        .notification.error {
+            background: #f44336;
+        }
+
+        .notification.warning {
+            background: #FF9800;
         }
 
         @media (max-width: 600px) {
@@ -170,6 +237,16 @@
             
             .logo {
                 font-size: 28px;
+            }
+
+            .notification {
+                right: 10px;
+                left: 10px;
+                transform: translateY(-100px);
+            }
+
+            .notification.show {
+                transform: translateY(0);
             }
         }
     </style>
@@ -186,9 +263,10 @@
                 <label for="kategori">Pilih Kategori:</label>
                 <select id="kategori" required>
                     <option value="">-- Pilih Kategori --</option>
-                    <option value="VPS High Quality">Hosting Minecraft Basic</option>
-                    <option value="VPS Ultra Quality">Hosting Minecraft Premium</option>
+                    <option value="VPS High Quality">VPS High Quality</option>
+                    <option value="VPS Ultra Quality">VPS Ultra Quality</option>
                 </select>
+                <div class="error-message" id="kategoriError">Mohon pilih kategori terlebih dahulu</div>
             </div>
 
             <div class="form-group">
@@ -196,6 +274,7 @@
                 <select id="produk" required>
                     <option value="">-- Pilih Produk --</option>
                 </select>
+                <div class="error-message" id="produkError">Mohon pilih produk terlebih dahulu</div>
             </div>
 
             <button type="submit" class="submit-btn" id="submitBtn" disabled>
@@ -207,55 +286,133 @@
             <h3>Preview Pesan:</h3>
             <div class="preview-text" id="previewText"></div>
         </div>
-
-
     </div>
 
     <script>
-        // DATA PRODUK - MUDAH DIEDIT
-        // Format: kategori -> produk -> {paket, spek, harga}
+        // Error Handling System
+        class ErrorHandler {
+            static showNotification(message, type = 'error', duration = 3000) {
+                // Remove existing notifications
+                const existing = document.querySelector('.notification');
+                if (existing) {
+                    existing.remove();
+                }
+
+                const notification = document.createElement('div');
+                notification.className = `notification ${type}`;
+                notification.textContent = message;
+                document.body.appendChild(notification);
+
+                // Show notification
+                setTimeout(() => notification.classList.add('show'), 100);
+
+                // Hide notification
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    setTimeout(() => notification.remove(), 300);
+                }, duration);
+            }
+
+            static showFieldError(fieldId, message) {
+                const field = document.getElementById(fieldId);
+                const errorElement = document.getElementById(fieldId + 'Error');
+                
+                if (field && errorElement) {
+                    field.classList.add('error');
+                    errorElement.textContent = message;
+                    errorElement.classList.add('show');
+                }
+            }
+
+            static hideFieldError(fieldId) {
+                const field = document.getElementById(fieldId);
+                const errorElement = document.getElementById(fieldId + 'Error');
+                
+                if (field && errorElement) {
+                    field.classList.remove('error');
+                    errorElement.classList.remove('show');
+                }
+            }
+
+            static validateForm(kategori, produk) {
+                let isValid = true;
+
+                // Clear previous errors
+                this.hideFieldError('kategori');
+                this.hideFieldError('produk');
+
+                if (!kategori) {
+                    this.showFieldError('kategori', 'Mohon pilih kategori terlebih dahulu');
+                    isValid = false;
+                }
+
+                if (!produk) {
+                    this.showFieldError('produk', 'Mohon pilih produk terlebih dahulu');
+                    isValid = false;
+                }
+
+                return isValid;
+            }
+        }
+
+        // DATA PRODUK - Updated dengan data baru
         const produkData = {
-            "Hosting Minecraft Basic": {
-                "Hosting Minecraft Basic 1": {
-                    paket: "Kelinci",
-                    spek: "1 vCPU, 1GB RAM, 3GB Disk",
-                    harga: "Rp 5.000"
+            "VPS High Quality": {
+                "VPS RAM 8 CORE 4": {
+                    paket: "VPS High Quality",
+                    spek: "RAM 8GB, CORE 4",
+                    harga: "Rp 60.000",
+                    aktif: "30 hari full 100%",
+                    garansi: "10 hari 1x replace"
                 },
-                "Hosting Minecraft Basic 2": {
-                    paket: "2",
-                    spek: "4 vCPU, 16GB RAM",
-                    harga: "Rp 70.000"
+                "VPS RAM 16 CORE 4": {
+                    paket: "VPS High Quality",
+                    spek: "RAM 16GB, CORE 4",
+                    harga: "Rp 70.000",
+                    aktif: "30 hari full 100%",
+                    garansi: "15 hari 1x replace"
                 },
-                "Hosting Minecraft Basic 3": {
-                    paket: "3",
-                    spek: "8 vCPU, 16GB RAM",
-                    harga: "Rp 100.000"
+                "VPS RAM 16 CORE 8": {
+                    paket: "VPS High Quality",
+                    spek: "RAM 16GB, CORE 8",
+                    harga: "Rp 100.000",
+                    aktif: "30 hari full 100%",
+                    garansi: "10 hari 1x replace"
                 },
-                "Hosting Minecraft Basic 4": {
-                    paket: "4",
-                    spek: "8 vCPU, 32GB RAM",
-                    harga: "Rp 140.000"
+                "VPS RAM 32 CORE 8": {
+                    paket: "VPS High Quality",
+                    spek: "RAM 32GB, CORE 8",
+                    harga: "Rp 140.000",
+                    aktif: "30 hari full 100%",
+                    garansi: "5 hari 1x replace"
                 }
             },
             "VPS Ultra Quality": {
-                "VPS Ultra Quality Plan 1": {
-                    paket: "1",
-                    spek: "4 vCPU, 16GB RAM",
-                    harga: "Rp 140.000"
+                "VPS RAM 16 CORE 4": {
+                    paket: "VPS Ultra Quality",
+                    spek: "RAM 16GB, CORE 4",
+                    harga: "Rp 140.000",
+                    aktif: "60 hari full 100%",
+                    garansi: "10 hari 1x replace"
                 },
-                "VPS Ultra Quality Plan 2": {
-                    paket: "2",
-                    spek: "8 vCPU, 16GB RAM",
-                    harga: "Rp 200.000"
+                "VPS RAM 16 CORE 8": {
+                    paket: "VPS Ultra Quality",
+                    spek: "RAM 16GB, CORE 8",
+                    harga: "Rp 200.000",
+                    aktif: "50 hari full 100%",
+                    garansi: "10 hari 1x replace"
                 },
-                "VPS Ultra Quality Plan 3": {
-                    paket: "3",
-                    spek: "8 vCPU, 32GB RAM",
-                    harga: "Rp 280.000"
+                "VPS RAM 32 CORE 8": {
+                    paket: "VPS Ultra Quality",
+                    spek: "RAM 32GB, CORE 8",
+                    harga: "Rp 280.000",
+                    aktif: "35 hari full 100%",
+                    garansi: "15 hari 1x replace"
                 }
             }
         };
 
+        // DOM Elements
         const kategoriSelect = document.getElementById('kategori');
         const produkSelect = document.getElementById('produk');
         const form = document.getElementById('orderForm');
@@ -263,37 +420,156 @@
         const previewText = document.getElementById('previewText');
         const submitBtn = document.getElementById('submitBtn');
 
+        // Initialize form
+        function initializeForm() {
+            try {
+                // Check if required elements exist
+                if (!kategoriSelect || !produkSelect || !form || !preview || !previewText || !submitBtn) {
+                    throw new Error('Required form elements not found');
+                }
+
+                // Set initial state
+                updateSubmitButton();
+                ErrorHandler.showNotification('Form berhasil dimuat', 'success', 2000);
+            } catch (error) {
+                console.error('Form initialization error:', error);
+                ErrorHandler.showNotification('Terjadi kesalahan saat memuat form', 'error');
+            }
+        }
+
         // Update produk berdasarkan kategori yang dipilih
         kategoriSelect.addEventListener('change', function() {
-            const selectedKategori = this.value;
-            produkSelect.innerHTML = '<option value="">-- Pilih Produk --</option>';
-            
-            if (selectedKategori && produkData[selectedKategori]) {
-                Object.keys(produkData[selectedKategori]).forEach(produk => {
-                    const option = document.createElement('option');
-                    option.value = produk;
-                    option.textContent = produk;
-                    produkSelect.appendChild(option);
-                });
+            try {
+                const selectedKategori = this.value;
+                
+                // Clear errors
+                ErrorHandler.hideFieldError('kategori');
+                ErrorHandler.hideFieldError('produk');
+                
+                // Reset produk dropdown
+                produkSelect.innerHTML = '<option value="">-- Pilih Produk --</option>';
+                
+                if (selectedKategori && produkData[selectedKategori]) {
+                    const produkList = Object.keys(produkData[selectedKategori]);
+                    
+                    if (produkList.length === 0) {
+                        throw new Error(`Tidak ada produk tersedia untuk kategori ${selectedKategori}`);
+                    }
+                    
+                    produkList.forEach(produk => {
+                        const option = document.createElement('option');
+                        option.value = produk;
+                        option.textContent = produk;
+                        produkSelect.appendChild(option);
+                    });
+                    
+                    ErrorHandler.showNotification(`${produkList.length} produk dimuat untuk ${selectedKategori}`, 'success', 2000);
+                } else if (selectedKategori) {
+                    throw new Error(`Kategori ${selectedKategori} tidak ditemukan`);
+                }
+                
+                produkSelect.value = '';
+                updatePreview();
+                updateSubmitButton();
+                
+            } catch (error) {
+                console.error('Category selection error:', error);
+                ErrorHandler.showNotification(error.message, 'error');
+                produkSelect.innerHTML = '<option value="">-- Error loading products --</option>';
             }
-            
-            produkSelect.value = '';
-            updatePreview();
-            updateSubmitButton();
         });
 
         // Update preview saat produk dipilih
         produkSelect.addEventListener('change', function() {
-            updatePreview();
-            updateSubmitButton();
+            try {
+                ErrorHandler.hideFieldError('produk');
+                updatePreview();
+                updateSubmitButton();
+            } catch (error) {
+                console.error('Product selection error:', error);
+                ErrorHandler.showNotification('Terjadi kesalahan saat memilih produk', 'error');
+            }
         });
 
         function updatePreview() {
-            const kategori = kategoriSelect.value;
-            const produk = produkSelect.value;
+            try {
+                const kategori = kategoriSelect.value;
+                const produk = produkSelect.value;
 
-            if (kategori && produk && produkData[kategori] && produkData[kategori][produk]) {
+                if (kategori && produk && produkData[kategori] && produkData[kategori][produk]) {
+                    const data = produkData[kategori][produk];
+                    
+                    if (!data.paket || !data.spek || !data.harga) {
+                        throw new Error('Data produk tidak lengkap');
+                    }
+                    
+                    const message = `𝗛𝗮𝗹𝗼 𝗞𝗮𝗸 𝗔𝗟𝗪𝗜 😇
+𝗦𝗮𝘆𝗮 𝗠𝗮𝘂 𝗢𝗿𝗱𝗲𝗿 𝗡𝗶𝗵 𝗞𝗮𝗸
+╭────────────────╮
+┃𝗣𝗿𝗼𝗱𝘂𝗸: ${produk}
+│𝗣𝗮𝗸𝗲𝘁: ${data.paket}
+┃𝗦𝗽𝗲𝗸: ${data.spek}
+│𝗛𝗮𝗿𝗴𝗮: ${data.harga}
+╰─────────────···
+> ©𝗔𝗟𝗪𝗜 𝗦𝗧𝗢𝗥𝗘 𝗜𝗗`;
+
+                    previewText.textContent = message;
+                    preview.style.display = 'block';
+                } else {
+                    preview.style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Preview update error:', error);
+                preview.style.display = 'none';
+                ErrorHandler.showNotification('Gagal memuat preview pesan', 'warning');
+            }
+        }
+
+        function updateSubmitButton() {
+            try {
+                const kategori = kategoriSelect.value;
+                const produk = produkSelect.value;
+                
+                if (kategori && produk && produkData[kategori] && produkData[kategori][produk]) {
+                    submitBtn.disabled = false;
+                } else {
+                    submitBtn.disabled = true;
+                }
+            } catch (error) {
+                console.error('Submit button update error:', error);
+                submitBtn.disabled = true;
+            }
+        }
+
+        // Handle form submission dengan error handling
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            try {
+                const kategori = kategoriSelect.value;
+                const produk = produkSelect.value;
+                
+                // Validate form
+                if (!ErrorHandler.validateForm(kategori, produk)) {
+                    return;
+                }
+                
+                // Check if product data exists
+                if (!produkData[kategori] || !produkData[kategori][produk]) {
+                    throw new Error('Data produk tidak ditemukan');
+                }
+                
                 const data = produkData[kategori][produk];
+                
+                // Validate product data completeness
+                if (!data.paket || !data.spek || !data.harga || !data.aktif || !data.garansi) {
+                    throw new Error('Data produk tidak lengkap');
+                }
+                
+                // Show loading state
+                submitBtn.classList.add('loading');
+                submitBtn.disabled = true;
+                
                 const message = `𝗛𝗮𝗹𝗼 𝗞𝗮𝗸 𝗔𝗟𝗪𝗜 😇
 𝗦𝗮𝘆𝗮 𝗠𝗮𝘂 𝗢𝗿𝗱𝗲𝗿 𝗡𝗶𝗵 𝗞𝗮𝗸
 ╭────────────────╮
@@ -304,98 +580,46 @@
 ╰─────────────···
 > ©𝗔𝗟𝗪𝗜 𝗦𝗧𝗢𝗥𝗘 𝗜𝗗`;
 
-                previewText.textContent = message;
-                preview.style.display = 'block';
-            } else {
-                preview.style.display = 'none';
+                const whatsappUrl = `https://wa.me/6283155764643?text=${encodeURIComponent(message)}`;
+                
+                // Simulate processing delay
+                setTimeout(() => {
+                    try {
+                        window.open(whatsappUrl, '_blank');
+                        ErrorHandler.showNotification('Berhasil membuka WhatsApp!', 'success');
+                    } catch (error) {
+                        throw new Error('Gagal membuka WhatsApp. Pastikan WhatsApp terinstall.');
+                    } finally {
+                        // Remove loading state
+                        submitBtn.classList.remove('loading');
+                        updateSubmitButton();
+                    }
+                }, 1000);
+                
+            } catch (error) {
+                console.error('Form submission error:', error);
+                ErrorHandler.showNotification(error.message, 'error');
+                
+                // Remove loading state
+                submitBtn.classList.remove('loading');
+                updateSubmitButton();
             }
-        }
-
-        function updateSubmitButton() {
-            const kategori = kategoriSelect.value;
-            const produk = produkSelect.value;
-            
-            if (kategori && produk) {
-                submitBtn.disabled = false;
-            } else {
-                submitBtn.disabled = true;
-            }
-        }
-
-        // Handle form submission
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const kategori = kategoriSelect.value;
-            const produk = produkSelect.value;
-
-            if (!kategori || !produk) {
-                alert('Mohon pilih kategori dan produk terlebih dahulu!');
-                return;
-            }
-
-            const data = produkData[kategori][produk];
-            const message = `𝗛𝗮𝗹𝗼 𝗞𝗮𝗸 𝗔𝗟𝗪𝗜 😇
-𝗦𝗮𝘆𝗮 𝗠𝗮𝘂 𝗢𝗿𝗱𝗲𝗿 𝗡𝗶𝗵 𝗞𝗮𝗸
-╭────────────────╮
-┃𝗣𝗿𝗼𝗱𝘂𝗸: ${produk}
-│𝗣𝗮𝗸𝗲𝘁: ${data.paket}
-┃𝗦𝗽𝗲𝗸: ${data.spek}
-│𝗛𝗮𝗿𝗴𝗮: ${data.harga}
-╰─────────────···
-> ©𝗔𝗟𝗪𝗜 𝗦𝗧𝗢𝗥𝗘 𝗜𝗗`;
-
-            const whatsappUrl = `https://wa.me/6283155764643?text=${encodeURIComponent(message)}`;
-            window.open(whatsappUrl, '_blank');
         });
 
-        // FUNGSI UNTUK MEMUDAHKAN EDIT DATA
-        // Contoh penggunaan:
-        
-        // 1. Menambah produk baru:
-        function tambahProduk(kategori, namaProduk, paket, spek, harga) {
-            if (!produkData[kategori]) {
-                produkData[kategori] = {};
-            }
-            produkData[kategori][namaProduk] = {
-                paket: paket,
-                spek: spek,
-                harga: harga
-            };
-            // Refresh dropdown jika kategori sedang dipilih
-            if (kategoriSelect.value === kategori) {
-                kategoriSelect.dispatchEvent(new Event('change'));
-            }
-        }
+        // Initialize form when page loads
+        document.addEventListener('DOMContentLoaded', initializeForm);
 
-        // 2. Mengedit produk yang sudah ada:
-        function editProduk(kategori, namaProduk, paket, spek, harga) {
-            if (produkData[kategori] && produkData[kategori][namaProduk]) {
-                produkData[kategori][namaProduk] = {
-                    paket: paket,
-                    spek: spek,
-                    harga: harga
-                };
-            }
-        }
+        // Handle unhandled errors
+        window.addEventListener('error', function(event) {
+            console.error('Global error:', event.error);
+            ErrorHandler.showNotification('Terjadi kesalahan sistem', 'error');
+        });
 
-        // 3. Menambah kategori baru:
-        function tambahKategori(namaKategori) {
-            produkData[namaKategori] = {};
-            const option = document.createElement('option');
-            option.value = namaKategori;
-            option.textContent = namaKategori;
-            kategoriSelect.appendChild(option);
-        }
-
-        // CONTOH PENGGUNAAN (uncomment untuk menggunakan):
-        
-        // tambahProduk("VPS High Quality", "VPS Premium", "1 Bulan", "12 vCPU, 12GB RAM, 300GB SSD, 12TB Bandwidth", "Rp 600.000");
-        
-        // editProduk("VPS Ultra Quality", "VPS Ultra Starter", "3 Bulan", "2 vCPU, 4GB RAM, 50GB NVMe SSD, Unlimited Bandwidth", "Rp 400.000");
-        
-        // tambahKategori("VPS Premium Quality");
-        // tambahProduk("VPS Premium Quality", "VPS Supreme", "1 Bulan", "64 vCPU, 128GB RAM, 1TB NVMe SSD, Unlimited Bandwidth", "Rp 5.000.000");
+        // Handle unhandled promise rejections
+        window.addEventListener('unhandledrejection', function(event) {
+            console.error('Unhandled promise rejection:', event.reason);
+            ErrorHandler.showNotification('Terjadi kesalahan sistem', 'error');
+        });
     </script>
 </body>
 </html>
